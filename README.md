@@ -1,2 +1,2 @@
 # ProjetoAelSistemas
-Hands-up Display (HUD).
+Heads-up Display (HUD).

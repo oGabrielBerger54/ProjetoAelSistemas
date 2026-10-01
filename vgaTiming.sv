@@ -12,34 +12,28 @@ module vgaTiming (
 // http://microvga.com/vga-timing/640x480@60Hz
 
 // Pixels visíveis na horizontal
-parameter HDISPLAY = 640;
+parameter H_DISPLAY = 640;
 
 // Tempo de espera (tela preta) antes de puxar o feixe (VESA DMT)
-parameter HFRONT = 16;
+parameter H_FRONT = 16;
 
 // Tempo que o feixe leva sendo puxado para a esquerda (VESA DMT)
-parameter HSYNC = 96;  
-
-// Tempo de estabilização antes de começar a próxima linha (VESA DMT)
-parameter HBACK = 48;
+parameter H_SYNC = 96;  
 
 // Total de ciclos gastos em uma linha inteira (640+16+96+48)
-parameter HTOTAL = 800; 
+parameter H_TOTAL = 800; 
 
 // Linhas visíveis na vertical 
-parameter VDISPLAY = 480;
+parameter V_DISPLAY = 480;
 
 // Linhas de espera (tela preta) antes de subir o feixe (VESA DMT)
-parameter VFRONT = 10;
+parameter V_FRONT = 10;
 
 // Tempo que o feixe leva sendo puxado para o topo (VESA DMT)
-parameter VSYNC = 2;
-
-// Tempo de estabilização no topo (VESA DMT)
-parameter VBACK = 33; 
+parameter V_SYNC = 2;
 
 // Total de linhas percorridas para desenhar uma tela (480+10+2+33)
-parameter VTOTAL = 525;
+parameter V_TOTAL = 525;
 
 always_ff @(posedge clk or negedge rstN) begin
     if(!rstN) begin
@@ -48,34 +42,33 @@ always_ff @(posedge clk or negedge rstN) begin
         pxI <= '0;
     end 
     else begin
-        // no caso de estarmos no último pixel da linha, reinicia o contador horizontal
-        if(pxJ == HTOTAL - 1) begin
+        // No caso de estarmos no último pixel da linha, reinicia o contador horizontal
+        if(pxJ == H_TOTAL - 1) begin
             pxJ <= '0;
-            // no caso de estarmos no último pixel da tela, reinicia o contador vertical
-            if(pxI == VTOTAL - 1) begin
+            // No caso de estarmos no último pixel da tela, reinicia o contador vertical
+            if(pxI == V_TOTAL - 1) begin
                 pxI <= '0;
             end else begin
-                // caso contrário, incrementa o contador vertical
+                // Caso contrário, incrementa o contador vertical
                 pxI <= pxI + 1;
             end
         end 
         else begin
-            // caso contrário, incrementa o contador horizontal
+            // Caso contrário, incrementa o contador horizontal
             pxJ <= pxJ + 1;
         end
     end
 end
 
 always_comb begin
-    // caso o contador horizontal esteja entre o final da tela visível e o final do tempo de sincronização, o sinal de sincronização horizontal é ativado
-    hsync = ~((pxJ >= HDISPLAY + HFRONT) && (pxJ < HDISPLAY + HFRONT + HSYNC));
+    // Caso o contador horizontal esteja entre o final da tela visível e o final do tempo de sincronização, o sinal de sincronização horizontal é ativado
+    hsync = ~((pxJ >= H_DISPLAY + H_FRONT) && (pxJ < H_DISPLAY + H_FRONT + H_SYNC));
     
-    // caso o contador vertical esteja entre o final da tela visível e o final do tempo de sincronização, o sinal de sincronização vertical é ativado
-    vsync = ~((pxI >= VDISPLAY + VFRONT) && (pxI < VDISPLAY + VFRONT + VSYNC));
+    // Caso o contador vertical esteja entre o final da tela visível e o final do tempo de sincronização, o sinal de sincronização vertical é ativado
+    vsync = ~((pxI >= V_DISPLAY + V_FRONT) && (pxI < V_DISPLAY + V_FRONT + V_SYNC));
 
-    // caso o contador horizontal e vertical estejam dentro da tela visível, o sinal de vídeo ativo é ativado
-    activeVideo = (pxJ < HDISPLAY) && (pxI < VDISPLAY);
+    // Caso o contador horizontal e vertical estejam dentro da tela visível, o sinal de vídeo ativo é ativado
+    activeVideo = (pxJ < H_DISPLAY) && (pxI < V_DISPLAY);
 end
 
 endmodule
-

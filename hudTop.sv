@@ -3,7 +3,7 @@ module hudTop (
     input  logic reset,
 
     output logic VGAHS,
-    output logic VGAVS,
+    output logic  VGAVS,
     output logic [3:0] VGAR,
     output logic [3:0] VGAG,
     output logic [3:0] VGAB
@@ -47,6 +47,13 @@ coordGen coordGen (
 );
 
 logic drawReticle;
+logic drawHorizon;
+logic drawAlt;
+
+// Sinais de controle de voo independentes
+logic signed [8:0]  horizonVerticalDelta = 9'sd0;
+logic signed [9:0]  horizonHorizontalDelta = 10'sd0;
+logic signed [11:0] altOffset = 12'sd30;
 
 reticleGen reticleGen (
     .x(x),
@@ -55,13 +62,30 @@ reticleGen reticleGen (
     .drawReticle(drawReticle)
 );
 
+horizonGen horizonGen (
+    .x(x),
+    .y(y),
+    .horizonVerticalDelta(horizonVerticalDelta),
+    .horizonHorizontalDelta(horizonHorizontalDelta),
+    .validPixel(validPixel),
+    .drawHorizon(drawHorizon)
+);
+
+altGen altGen (
+    .x(x),
+    .y(y),
+    .altOffset(altOffset),
+    .validPixel(validPixel),
+    .drawAlt(drawAlt)
+);
+
 parameter [3:0] BGR = 4'h4;
 parameter [3:0] BGG = 4'h6;
 parameter [3:0] BGB = 4'h9;
 
 always_comb begin
     if(validPixel) begin
-        if(drawReticle) begin
+        if(drawReticle || drawHorizon || drawAlt) begin
             VGAR = 4'h0;
             VGAG = 4'hF;
             VGAB = 4'h0;

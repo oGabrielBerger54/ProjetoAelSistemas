@@ -4,6 +4,9 @@ module hudTop (
 
     // Switch de modo: SW[0] = 1 -> horizonte segue o acelerômetro / SW[0] = 0 -> horizonte fixo (neutro)
     input logic SW0,
+    // Switch da bússola: SW[1] = 1 -> o ângulo da bússola segue os empurrões na placa / SW[1] = 0 -> bússola desligada (ângulo parado em 0)
+    input logic SW1,
+
     // Acelerômetro ADXL362 (SPI)
     input logic ACL_MISO,
     output logic ACL_MOSI,
@@ -12,6 +15,7 @@ module hudTop (
     
     // LED[0] aceso = acelerômetro respondeu
     output logic LED0,
+
     output logic VGAHS,
     output logic VGAVS,
     output logic [3:0] VGAR,
@@ -111,6 +115,38 @@ logic signed [9:0] horizonHorizontalDelta;
 // SW0 vem de um switch (assíncrono), mas o horizonGen só usa o valor no fim do quadro, uma eventual metaestabilidade afeta no máximo 1 quadro.
 assign horizonVerticalDelta = SW0 ? accelVerticalDelta : 9'sd0;
 assign horizonHorizontalDelta = SW0 ? accelHorizontalDelta : 10'sd0;
+
+// SW1 vem de um switch (assíncrono): passa por 2 flip-flops antes de ser usado.
+// Quando SW1 = 0, o accelToCompass fica em reset: ângulo em 0. Quando SW1 sobe, ele ignora empurrões por ~1,2 s e depois começa a contar.
+logic [1:0] sw1Sync;
+logic compassRstN;
+
+always_ff @(posedge clk25 or negedge rstN) begin
+    if(!rstN) begin
+        sw1Sync <= 2'b00;
+        compassRstN <= 1'b0;
+    end else begin
+        sw1Sync <= {sw1Sync[0], SW1};
+        compassRstN <= sw1Sync[1];
+    end
+end
+
+logic [8:0] compassHeading;
+logic [3:0] compassFrac;
+
+// SWAP_XY igual ao do accelToHorizon. Se empurrar para a direita DIMINUIR o ângulo, ponha INVERT em 1'b1.
+accelToCompass #(
+    .SWAP_XY(1'b1),
+    .INVERT (1'b0)
+) accelToCompass (
+    .clk(clk25),
+    .rst_n(compassRstN),
+    .accelX(accelX),
+    .accelY(accelY),
+    .accelValid(aclValid),
+    .compassHeading(compassHeading),
+    .compassFrac(compassFrac)
+);
 
 logic drawReticle;
 logic drawHorizon;

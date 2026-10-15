@@ -1,4 +1,4 @@
-<<<<<<< HEAD:reticleGen.sv
+//<<<<<<< HEAD:reticleGen.sv
 module reticleGen (
     input  logic unsigned [9:0] x,
     input  logic unsigned [9:0] y,
@@ -41,7 +41,7 @@ always_comb begin
 end
 endmodule
 
-=======
+//=======
 module reticleGen (
     input  logic unsigned [9:0] x,
     input  logic unsigned [9:0] y,
@@ -84,4 +84,4 @@ always_comb begin
 end
 endmodule
 
->>>>>>> e82fc96 (feat: Add horizon line correction):drawings/reticleGen.sv
+//>>>>>>> e82fc96 (feat: Add horizon line correction):drawings/reticleGen.sv

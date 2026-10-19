@@ -7,7 +7,7 @@ create_generated_clock -name clk25 -source [get_ports clock] -divide_by 4 [get_p
 ##Switches
 set_property -dict { PACKAGE_PIN J15   IOSTANDARD LVCMOS33 } [get_ports { SW0 }]; #Sch=sw[0] - 1 = horizonte pelo acelerometro
 set_property -dict { PACKAGE_PIN L16   IOSTANDARD LVCMOS33 } [get_ports { SW1 }]; #Sch=sw[1]
-#set_property -dict { PACKAGE_PIN M13   IOSTANDARD LVCMOS33 } [get_ports { SW[2] }]; #Sch=sw[2]
+set_property -dict { PACKAGE_PIN M13   IOSTANDARD LVCMOS33 } [get_ports { SW2 }]; #Sch=sw[2] - 1 = altitude pelo barometro
 #set_property -dict { PACKAGE_PIN R15   IOSTANDARD LVCMOS33 } [get_ports { SW[3] }]; #Sch=sw[3]
 #set_property -dict { PACKAGE_PIN R17   IOSTANDARD LVCMOS33 } [get_ports { SW[4] }]; #Sch=sw[4]
 #set_property -dict { PACKAGE_PIN T18   IOSTANDARD LVCMOS33 } [get_ports { SW[5] }]; #Sch=sw[5]
@@ -24,7 +24,7 @@ set_property -dict { PACKAGE_PIN L16   IOSTANDARD LVCMOS33 } [get_ports { SW1 }]
 
 ## LEDs
 set_property -dict { PACKAGE_PIN H17   IOSTANDARD LVCMOS33 } [get_ports { LED0 }]; #Sch=led[0] - acelerometro OK
-#set_property -dict { PACKAGE_PIN K15   IOSTANDARD LVCMOS33 } [get_ports { LED[1] }]; #Sch=led[1]
+set_property -dict { PACKAGE_PIN K15   IOSTANDARD LVCMOS33 } [get_ports { LED1 }]; #Sch=led[1] - barometro OK
 #set_property -dict { PACKAGE_PIN J13   IOSTANDARD LVCMOS33 } [get_ports { LED[2] }]; #Sch=led[2]
 #set_property -dict { PACKAGE_PIN N14   IOSTANDARD LVCMOS33 } [get_ports { LED[3] }]; #Sch=led[3]
 
@@ -33,6 +33,11 @@ set_property -dict { PACKAGE_PIN E15   IOSTANDARD LVCMOS33 } [get_ports { ACL_MI
 set_property -dict { PACKAGE_PIN F14   IOSTANDARD LVCMOS33 } [get_ports { ACL_MOSI }]; #Sch=acl_mosi
 set_property -dict { PACKAGE_PIN F15   IOSTANDARD LVCMOS33 } [get_ports { ACL_SCLK }]; #Sch=acl_sclk
 set_property -dict { PACKAGE_PIN D15   IOSTANDARD LVCMOS33 } [get_ports { ACL_CSN }]; #Sch=acl_csn
+
+##Barometer (BMP085) no Pmod JA: JA1 = SDA, JA2 = SCL, JA3 = XCLR. Pull-up ligado porque o I2C precisa dele.
+set_property -dict { PACKAGE_PIN C17   IOSTANDARD LVCMOS33 PULLUP true } [get_ports { BARO_SDA }]; #Sch=ja[1]
+set_property -dict { PACKAGE_PIN D18   IOSTANDARD LVCMOS33 PULLUP true } [get_ports { BARO_SCL }]; #Sch=ja[2]
+set_property -dict { PACKAGE_PIN E18   IOSTANDARD LVCMOS33 } [get_ports { BARO_XCLR }]; #Sch=ja[3]
 
 ##Buttons
 set_property -dict { PACKAGE_PIN N17   IOSTANDARD LVCMOS33 } [get_ports { reset }]; #Sch=btnc

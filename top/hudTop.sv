@@ -6,6 +6,8 @@ module hudTop (
     input logic SW0,
     // Switch da bússola: SW[1] = 1 -> o ângulo da bússola segue os empurrões na placa / SW[1] = 0 -> bússola desligada (ângulo parado em 0)
     input logic SW1,
+    // Switch da altitude: SW[2] = 1 -> a escala de altitude segue o barômetro / SW[2] = 0 -> escala parada
+    input logic SW2,
 
     // Acelerômetro ADXL362 (SPI)
     input logic ACL_MISO,
@@ -13,8 +15,15 @@ module hudTop (
     output logic ACL_SCLK,
     output logic ACL_CSN,
     
+    // Barômetro BMP085 (I2C). SDA e SCL são "inout": o I2C usa a mesma linha para falar e para ouvir.
+    inout wire BARO_SDA,
+    inout wire BARO_SCL,
+    output logic BARO_XCLR, // reset do sensor, ativo em 0. Fica sempre em 1.
+
     // LED[0] aceso = acelerômetro respondeu
     output logic LED0,
+    // LED[1] aceso = barômetro respondeu e está sem erro
+    output logic LED1,
 
     output logic VGAHS,
     output logic VGAVS,
@@ -148,6 +157,57 @@ accelToCompass #(
     .compassFrac(compassFrac)
 );
 
+// ---------- Barômetro (I2C) ----------
+// Cadeia: sensor --I2C--> bmp085_reader (usa o i2c_master) --> barToAlt --> altGen
+logic [15:0] pressRaw;
+logic pressValid, baroError;
+
+assign BARO_XCLR = 1'b1; // XCLR é o reset do sensor (ativo em 0). Em 1 o sensor fica ligado.
+
+// O bmp085_reader foi feito para o clock de 100 MHz. Aqui ele roda no clk25, então CLK_HZ = 25_000_000 (as esperas e o SCL se ajustam sozinhos).
+// SCL = 25 MHz / (4 x 62) = ~100 kHz.  Reset dele é ativo em 1 (por isso ~rstN).
+bmp085_reader #(
+    .ADDR(7'h77),
+    .CLK_HZ(25_000_000),
+    .I2C_HZ(100_000)
+) bmp085Reader (
+    .clk(clk25),
+    .rst(~rstN),
+    .scl(BARO_SCL),
+    .sda(BARO_SDA),
+    .temp_raw(), // a temperatura não é usada
+    .press_raw(pressRaw),
+    .data_valid(pressValid),
+    .error(baroError),
+    .calib(), // os números de calibração não são usados
+    .debug()
+);
+
+// LED1: acende na primeira leitura boa e apaga se der erro (igual ao sensor_ok do top de teste)
+logic baroOk;
+
+always_ff @(posedge clk25 or negedge rstN) begin
+    if(!rstN) baroOk <= 1'b0;
+    else if(baroError) baroOk <= 1'b0;
+    else if(pressValid) baroOk <= 1'b1;
+end
+
+assign LED1 = baroOk;
+
+logic signed [11:0] baroAltOffset;
+
+// Sem zeroRef por enquanto (1'b0): a altura "zero" é a de quando o reset foi solto. Apertar o reset zera de novo.
+barToAlt #(
+    .INVERT(1'b0)
+) barToAlt (
+    .clk(clk25),
+    .rst_n(rstN),
+    .pressRaw(pressRaw),
+    .pressValid(pressValid),
+    .zeroRef(1'b0),
+    .altOffset(baroAltOffset)
+);
+
 logic drawReticle;
 logic drawHorizon;
 
@@ -169,13 +229,29 @@ horizonGen horizonGen (
     .drawHorizon(drawHorizon)
 );
 
+// SW2 vem de um switch (assíncrono), mas o altGen só lê o valor no fim do quadro, uma eventual metaestabilidade afeta no máximo 1 quadro (igual ao SW0).
+logic signed [11:0] altOffset;
+assign altOffset = SW2 ? baroAltOffset : 12'sd0;
+
+logic drawAlt;
+
+altGen altGen (
+    .clk(clk25),
+    .rstN(rstN),
+    .x(x),
+    .y(y),
+    .altOffset(altOffset),
+    .validPixel(validPixel),
+    .drawAlt(drawAlt)
+);
+
 parameter [3:0] BGR = 4'h4;
 parameter [3:0] BGG = 4'h6;
 parameter [3:0] BGB = 4'h9;
 
 always_comb begin
     if(validPixel) begin
-        if(drawReticle || drawHorizon) begin
+        if(drawReticle || drawHorizon || drawAlt) begin
             VGAR = 4'h0;
             VGAG = 4'hF;
             VGAB = 4'h0;

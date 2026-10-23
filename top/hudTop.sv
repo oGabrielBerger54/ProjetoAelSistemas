@@ -157,6 +157,18 @@ accelToCompass #(
     .compassFrac(compassFrac)
 );
 
+logic drawCompass;
+compassGen compassGen(
+    .clk(clk25),
+    .rstN(rstN),
+    .x(x),
+    .y(y),
+    .validPixel(validPixel),
+    .compassHeading(compassHeading),
+    .compassFrac(compassFrac),
+    .drawCompass(drawCompass)
+);
+
 // ---------- Barômetro (I2C) ----------
 // Cadeia: sensor --I2C--> bmp085_reader (usa o i2c_master) --> barToAlt --> altGen
 logic [15:0] pressRaw;
@@ -245,13 +257,14 @@ altGen altGen (
     .drawAlt(drawAlt)
 );
 
+
 parameter [3:0] BGR = 4'h4;
 parameter [3:0] BGG = 4'h6;
 parameter [3:0] BGB = 4'h9;
 
 always_comb begin
     if(validPixel) begin
-        if(drawReticle || drawHorizon || drawAlt) begin
+        if(drawReticle || drawHorizon || drawAlt || drawCompass) begin
             VGAR = 4'h0;
             VGAG = 4'hF;
             VGAB = 4'h0;

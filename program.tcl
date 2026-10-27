@@ -3,7 +3,7 @@
 #     vivado -mode batch -source program.tcl
 
 set root [file dirname [file normalize [info script]]]
-set bitFile $root/hudTop.bit        ;# gerado pelo build.tcl
+set bitFile $root/hudTop.bit; # gerado pelo build.tcl
 
 open_hw_manager
 connect_hw_server -url localhost:3121;

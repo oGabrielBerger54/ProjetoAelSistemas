@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1250 640" width="1250" height="640" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/></marker></defs>
+<rect width="1250" height="640" fill="#ffffff"/>
+<text x="625.0" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#1b1f24">Diagrama de blocos do HUD</text>
+<text x="625.0" y="56" text-anchor="middle" font-size="13" fill="#57606a">Cada instrumento segue o mesmo caminho: sensor, controlador, conversão, desenho, cor, VGA</text>
+<text x="105.0" y="92" text-anchor="middle" font-size="12" font-weight="700" fill="#57606a" letter-spacing="1">SENSORES</text>
+<line x1="20" y1="100" x2="190" y2="100" stroke="#d0d7de" stroke-width="2"/>
+<text x="305.0" y="92" text-anchor="middle" font-size="12" font-weight="700" fill="#57606a" letter-spacing="1">CONTROLADOR</text>
+<line x1="220" y1="100" x2="390" y2="100" stroke="#d0d7de" stroke-width="2"/>
+<text x="525.0" y="92" text-anchor="middle" font-size="12" font-weight="700" fill="#57606a" letter-spacing="1">CONVERSÃO</text>
+<line x1="450" y1="100" x2="600" y2="100" stroke="#d0d7de" stroke-width="2"/>
+<text x="755.0" y="92" text-anchor="middle" font-size="12" font-weight="700" fill="#57606a" letter-spacing="1">DESENHO</text>
+<line x1="680" y1="100" x2="830" y2="100" stroke="#d0d7de" stroke-width="2"/>
+<text x="990.0" y="92" text-anchor="middle" font-size="12" font-weight="700" fill="#57606a" letter-spacing="1">COR</text>
+<line x1="930" y1="100" x2="1050" y2="100" stroke="#d0d7de" stroke-width="2"/>
+<text x="1160.0" y="92" text-anchor="middle" font-size="12" font-weight="700" fill="#57606a" letter-spacing="1">SAÍDA</text>
+<line x1="1100" y1="100" x2="1220" y2="100" stroke="#d0d7de" stroke-width="2"/>
+<text x="305.0" y="115" text-anchor="middle" font-size="10.5" fill="#57606a">fala com o sensor</text>
+<text x="525.0" y="115" text-anchor="middle" font-size="10.5" fill="#57606a">dado cru → pixels</text>
+<text x="755.0" y="115" text-anchor="middle" font-size="10.5" fill="#57606a">desenha ou não?</text>
+<text x="990.0" y="115" text-anchor="middle" font-size="10.5" fill="#57606a">junta tudo e pinta</text>
+<rect x="20" y="215.0" width="170" height="60" rx="9" fill="#e8f0fe" stroke="#1f6feb" stroke-width="2"/>
+<text x="105.0" y="242.0" text-anchor="middle" font-size="14" font-weight="700" fill="#1b1f24">ADXL362</text>
+<text x="105.0" y="259.0" text-anchor="middle" font-size="11" fill="#57606a">SPI, soldado na placa</text>
+<rect x="20" y="385.0" width="170" height="60" rx="9" fill="#fff1e0" stroke="#e0720b" stroke-width="2"/>
+<text x="105.0" y="412.0" text-anchor="middle" font-size="14" font-weight="700" fill="#1b1f24">BMP085</text>
+<text x="105.0" y="429.0" text-anchor="middle" font-size="11" fill="#57606a">I2C, Pmod JA</text>
+<rect x="220" y="215.0" width="170" height="60" rx="9" fill="#e8f0fe" stroke="#1f6feb" stroke-width="2"/>
+<text x="305.0" y="242.0" text-anchor="middle" font-size="14" font-weight="700" fill="#1b1f24">adxl362Ctrl</text>
+<text x="305.0" y="259.0" text-anchor="middle" font-size="11" fill="#57606a">+ spiMaster</text>
+<rect x="220" y="385.0" width="170" height="60" rx="9" fill="#fff1e0" stroke="#e0720b" stroke-width="2"/>
+<text x="305.0" y="412.0" text-anchor="middle" font-size="14" font-weight="700" fill="#1b1f24">bmp085_reader</text>
+<text x="305.0" y="429.0" text-anchor="middle" font-size="11" fill="#57606a">+ i2c_master</text>
+<path d="M190,245.0 H220" fill="none" stroke="#1f6feb" stroke-width="2.4" marker-end="url(#ar)"/>
+<path d="M190,415 H220" fill="none" stroke="#e0720b" stroke-width="2.4" marker-end="url(#ar)"/>
+<rect x="450" y="160.0" width="150" height="60" rx="9" fill="#f6f8fa" stroke="#57606a" stroke-width="2"/>
+<text x="525.0" y="195.0" text-anchor="middle" font-size="14" font-weight="700" fill="#1b1f24">accelToHorizon</text>
+<rect x="450" y="270.0" width="150" height="60" rx="9" fill="#f6f8fa" stroke="#57606a" stroke-width="2"/>
+<text x="525.0" y="305.0" text-anchor="middle" font-size="14" font-weight="700" fill="#1b1f24">accelToCompass</text>
+<rect x="450" y="385.0" width="150" height="60" rx="9" fill="#f6f8fa" stroke="#57606a" stroke-width="2"/>
+<text x="525.0" y="420.0" text-anchor="middle" font-size="14" font-weight="700" fill="#1b1f24">barToAlt</text>
+<path d="M390,245.0 H420" fill="none" stroke="#1f6feb" stroke-width="2.4"/>
+<path d="M420,190 V300" fill="none" stroke="#1f6feb" stroke-width="2.4"/>
+<circle cx="420" cy="245.0" r="4" fill="#1f6feb"/>
+<path d="M420,190 H450" fill="none" stroke="#1f6feb" stroke-width="2.4" marker-end="url(#ar)"/>
+<path d="M420,300 H450" fill="none" stroke="#1f6feb" stroke-width="2.4" marker-end="url(#ar)"/>
+<path d="M390,415 H450" fill="none" stroke="#e0720b" stroke-width="2.4" marker-end="url(#ar)"/>
+<text x="525" y="519" text-anchor="middle" font-size="11" fill="#57606a" font-style="italic">desenho fixo, sem sensor</text>
+<rect x="470.0" y="130.0" width="110" height="22" rx="11" fill="#f6f8fa" stroke="#57606a" stroke-width="1.4" stroke-dasharray="4 3"/>
+<text x="525" y="145.0" text-anchor="middle" font-size="10.5" fill="#1b1f24">SW0 liga/desliga</text>
+<rect x="470.0" y="240.0" width="110" height="22" rx="11" fill="#f6f8fa" stroke="#57606a" stroke-width="1.4" stroke-dasharray="4 3"/>
+<text x="525" y="255.0" text-anchor="middle" font-size="10.5" fill="#1b1f24">SW1 liga/desliga</text>
+<rect x="470.0" y="355.0" width="110" height="22" rx="11" fill="#f6f8fa" stroke="#57606a" stroke-width="1.4" stroke-dasharray="4 3"/>
+<text x="525" y="370.0" text-anchor="middle" font-size="10.5" fill="#1b1f24">SW2 liga/desliga</text>
+<rect x="680" y="160.0" width="150" height="60" rx="9" fill="#fff8e1" stroke="#b28704" stroke-width="2"/>
+<text x="755.0" y="195.0" text-anchor="middle" font-size="14" font-weight="700" fill="#1b1f24">horizonGen</text>
+<rect x="692.0" y="130.0" width="126" height="22" rx="11" fill="#f6f8fa" stroke="#57606a" stroke-width="1.4" stroke-dasharray="4 3"/>
+<text x="755" y="145.0" text-anchor="middle" font-size="10.5" fill="#1b1f24">x, y, pixel válido</text>
+<rect x="680" y="270.0" width="150" height="60" rx="9" fill="#fff8e1" stroke="#b28704" stroke-width="2"/>
+<text x="755.0" y="305.0" text-anchor="middle" font-size="14" font-weight="700" fill="#1b1f24">compassGen</text>
+<rect x="692.0" y="240.0" width="126" height="22" rx="11" fill="#f6f8fa" stroke="#57606a" stroke-width="1.4" stroke-dasharray="4 3"/>
+<text x="755" y="255.0" text-anchor="middle" font-size="10.5" fill="#1b1f24">x, y, pixel válido</text>
+<rect x="680" y="385.0" width="150" height="60" rx="9" fill="#fff8e1" stroke="#b28704" stroke-width="2"/>
+<text x="755.0" y="420.0" text-anchor="middle" font-size="14" font-weight="700" fill="#1b1f24">altGen</text>
+<rect x="692.0" y="355.0" width="126" height="22" rx="11" fill="#f6f8fa" stroke="#57606a" stroke-width="1.4" stroke-dasharray="4 3"/>
+<text x="755" y="370.0" text-anchor="middle" font-size="10.5" fill="#1b1f24">x, y, pixel válido</text>
+<rect x="680" y="485.0" width="150" height="60" rx="9" fill="#fff8e1" stroke="#b28704" stroke-width="2"/>
+<text x="755.0" y="520.0" text-anchor="middle" font-size="14" font-weight="700" fill="#1b1f24">reticleGen</text>
+<rect x="692.0" y="455.0" width="126" height="22" rx="11" fill="#f6f8fa" stroke="#57606a" stroke-width="1.4" stroke-dasharray="4 3"/>
+<text x="755" y="470.0" text-anchor="middle" font-size="10.5" fill="#1b1f24">x, y, pixel válido</text>
+<path d="M600,190 H680" fill="none" stroke="#57606a" stroke-width="2.4" marker-end="url(#ar)"/>
+<path d="M600,300 H680" fill="none" stroke="#57606a" stroke-width="2.4" marker-end="url(#ar)"/>
+<path d="M600,415 H680" fill="none" stroke="#57606a" stroke-width="2.4" marker-end="url(#ar)"/>
+<rect x="930" y="135" width="120" height="425" rx="9" fill="#fff8e1" stroke="#b28704" stroke-width="2"/>
+<text x="990.0" y="344.5" text-anchor="middle" font-size="18" font-weight="700" fill="#1b1f24">hudTop</text>
+<text x="990.0" y="361.5" text-anchor="middle" font-size="11" fill="#57606a">escolhe a cor</text>
+<path d="M830,190 H930" fill="none" stroke="#57606a" stroke-width="2.4" marker-end="url(#ar)"/>
+<path d="M830,300 H930" fill="none" stroke="#57606a" stroke-width="2.4" marker-end="url(#ar)"/>
+<path d="M830,415 H930" fill="none" stroke="#57606a" stroke-width="2.4" marker-end="url(#ar)"/>
+<path d="M830,515 H930" fill="none" stroke="#57606a" stroke-width="2.4" marker-end="url(#ar)"/>
+<rect x="1100" y="315.5" width="120" height="64" rx="9" fill="#eef9ef" stroke="#2e8b3a" stroke-width="2"/>
+<text x="1160.0" y="344.5" text-anchor="middle" font-size="14" font-weight="700" fill="#1b1f24">Saída VGA</text>
+<text x="1160.0" y="361.5" text-anchor="middle" font-size="11" fill="#57606a">R G B HS VS</text>
+<path d="M1050,347.5 H1100" fill="none" stroke="#2e8b3a" stroke-width="3" marker-end="url(#ar)"/>
+<text x="755" y="567.0" text-anchor="middle" font-size="10.5" fill="#57606a">x, y e pixel válido vêm do vgaTiming + coordGen</text>
+<rect x="20" y="585" width="1200" height="38" rx="10" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1.5"/>
+<text x="620" y="609" text-anchor="middle" font-size="12.5" fill="#1b1f24"><tspan font-weight="700">clk25</tspan> = clock de 100 MHz ÷ 4  ·  <tspan font-weight="700">reset sincronizado</tspan> (botão BTNC)  ·  os dois chegam a todos os blocos acima</text>
+</svg>

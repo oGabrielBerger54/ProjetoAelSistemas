@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 800" width="1320" height="800" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/></marker></defs>
+<rect width="1320" height="800" fill="#ffffff"/>
+<text x="660.0" y="32" text-anchor="middle" font-size="22" font-weight="700" fill="#1b1f24">Circuito simplificado: do joystick ao XADC</text>
+<text x="660.0" y="54" text-anchor="middle" font-size="13" fill="#57606a">Cada eixo é um potenciômetro de 3,3 V a 0 V, seguido de um divisor de tensão</text>
+<rect x="30" y="70" width="800" height="360" rx="12" fill="#fbfbfa" stroke="#d0d7de" stroke-width="1.5"/>
+<text x="50" y="98" text-anchor="start" font-size="16" font-weight="700" fill="#1b1f24">Eixo X: VRx → AD3P</text>
+<path d="M70,125 H780" fill="none" stroke="#d62728" stroke-width="3" stroke-linejoin="round"/>
+<text x="70" y="117" text-anchor="start" font-size="12" font-weight="700" fill="#d62728">+3,3 V (do JXADC, pino 6)</text>
+<path d="M70,380 H780" fill="none" stroke="#222" stroke-width="3" stroke-linejoin="round"/>
+<text x="70" y="400" text-anchor="start" font-size="12" font-weight="700" fill="#222">GND (0 V)</text>
+<path d="M150,125 V150" fill="none" stroke="#d62728" stroke-width="2.4" stroke-linejoin="round"/>
+<path d="M150,330 V380" fill="none" stroke="#222" stroke-width="2.4" stroke-linejoin="round"/>
+<rect x="135" y="150" width="30" height="180" rx="4" fill="#eef2f6" stroke="#444" stroke-width="2"/>
+<text x="120" y="236" text-anchor="end" font-size="11.5" font-weight="400" fill="#57606a">potenciômetro</text>
+<text x="120" y="252" text-anchor="end" font-size="11.5" font-weight="400" fill="#57606a">do joystick</text>
+<text x="120" y="268" text-anchor="end" font-size="11.5" font-weight="400" fill="#57606a">(10 kΩ)</text>
+<path d="M240,240 H172" fill="none" stroke="#1f6feb" stroke-width="2.6" stroke-linejoin="round"/>
+<path d="M172,240 l12,-6 v12 z" fill="#1f6feb"/>
+<circle cx="240" cy="240" r="8" fill="#1f6feb" stroke="#fff" stroke-width="2"/>
+<text x="236" y="188" text-anchor="middle" font-size="13" font-weight="700" fill="#1f6feb">pino VRx do joystick</text>
+<text x="236" y="204" text-anchor="middle" font-size="11.5" font-weight="400" fill="#1f6feb">(aqui o joystick é "pego")</text>
+<path d="M236,210 V226" stroke="#1f6feb" stroke-width="1.6" marker-end="url(#ar)"/>
+<text x="236" y="270" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1f6feb">0 a 3,3 V</text>
+<path d="M240,240 H285" fill="none" stroke="#1b1f24" stroke-width="2.4" stroke-linejoin="round"/>
+<rect x="285" y="226" width="70" height="28" rx="6" fill="#f4c7b4" stroke="#8a3a1a" stroke-width="1.6"/>
+<text x="320" y="245" text-anchor="middle" font-size="13" font-weight="700" fill="#6b2a10">R1</text>
+<text x="320" y="272" text-anchor="middle" font-size="11.5" font-weight="400" fill="#6b2a10">10 kΩ</text>
+<path d="M355,240 H385" fill="none" stroke="#1b1f24" stroke-width="2.4" stroke-linejoin="round"/>
+<rect x="385" y="226" width="70" height="28" rx="6" fill="#f4c7b4" stroke="#8a3a1a" stroke-width="1.6"/>
+<text x="420" y="245" text-anchor="middle" font-size="13" font-weight="700" fill="#6b2a10">R2</text>
+<text x="420" y="272" text-anchor="middle" font-size="11.5" font-weight="400" fill="#6b2a10">10 kΩ</text>
+<path d="M455,240 H485" fill="none" stroke="#1b1f24" stroke-width="2.4" stroke-linejoin="round"/>
+<rect x="485" y="226" width="70" height="28" rx="6" fill="#f4c7b4" stroke="#8a3a1a" stroke-width="1.6"/>
+<text x="520" y="245" text-anchor="middle" font-size="13" font-weight="700" fill="#6b2a10">R3</text>
+<text x="520" y="272" text-anchor="middle" font-size="11.5" font-weight="400" fill="#6b2a10">10 kΩ</text>
+<path d="M555,240 H600" fill="none" stroke="#1b1f24" stroke-width="2.4" stroke-linejoin="round"/>
+<circle cx="600" cy="240" r="6" fill="#1b1f24"/>
+<text x="600" y="210" text-anchor="middle" font-size="13" font-weight="700" fill="#1b1f24">ponto N</text>
+<text x="600" y="225" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2e8b3a">0 a 0,825 V</text>
+<path d="M600,240 V295" fill="none" stroke="#1b1f24" stroke-width="2.4" stroke-linejoin="round"/>
+<rect x="586" y="295" width="28" height="70" rx="6" fill="#f4c7b4" stroke="#8a3a1a" stroke-width="1.6"/>
+<text x="622" y="328" text-anchor="start" font-size="13" font-weight="700" fill="#6b2a10">R4</text>
+<text x="622" y="344" text-anchor="start" font-size="11.5" font-weight="400" fill="#6b2a10">10 kΩ</text>
+<path d="M600,365 V380" fill="none" stroke="#1b1f24" stroke-width="2.4" stroke-linejoin="round"/>
+<path d="M600,240 H690" fill="none" stroke="#1b1f24" stroke-width="2.4" stroke-linejoin="round"/>
+<rect x="690" y="205" width="115" height="130" rx="9" fill="#e8f3fc" stroke="#2b6cb0" stroke-width="1.8"/>
+<text x="747" y="226" text-anchor="middle" font-size="14" font-weight="700" fill="#0b3d73">XADC</text>
+<text x="747" y="244" text-anchor="middle" font-size="11.5" font-weight="400" fill="#57606a">da FPGA</text>
+<text x="700" y="270" text-anchor="start" font-size="11" font-weight="700" fill="#0b3d73">AD3P</text>
+<text x="700" y="284" text-anchor="start" font-size="10.5" font-weight="400" fill="#57606a">JXADC pino 1</text>
+<path d="M690,315 H655 V380" fill="none" stroke="#1b1f24" stroke-width="2.4" stroke-linejoin="round"/>
+<text x="700" y="312" text-anchor="start" font-size="11" font-weight="700" fill="#0b3d73">AD3N</text>
+<text x="700" y="326" text-anchor="start" font-size="10.5" font-weight="400" fill="#57606a">pino 7 (GND)</text>
+<circle cx="655" cy="380" r="4" fill="#222"/>
+<rect x="30" y="440" width="800" height="360" rx="12" fill="#fbfbfa" stroke="#d0d7de" stroke-width="1.5"/>
+<text x="50" y="468" text-anchor="start" font-size="16" font-weight="700" fill="#1b1f24">Eixo Y: VRy → AD10P</text>
+<path d="M70,495 H780" fill="none" stroke="#d62728" stroke-width="3" stroke-linejoin="round"/>
+<text x="70" y="487" text-anchor="start" font-size="12" font-weight="700" fill="#d62728">+3,3 V (do JXADC, pino 6)</text>
+<path d="M70,750 H780" fill="none" stroke="#222" stroke-width="3" stroke-linejoin="round"/>
+<text x="70" y="770" text-anchor="start" font-size="12" font-weight="700" fill="#222">GND (0 V)</text>
+<path d="M150,495 V520" fill="none" stroke="#d62728" stroke-width="2.4" stroke-linejoin="round"/>
+<path d="M150,700 V750" fill="none" stroke="#222" stroke-width="2.4" stroke-linejoin="round"/>
+<rect x="135" y="520" width="30" height="180" rx="4" fill="#eef2f6" stroke="#444" stroke-width="2"/>
+<text x="120" y="606" text-anchor="end" font-size="11.5" font-weight="400" fill="#57606a">potenciômetro</text>
+<text x="120" y="622" text-anchor="end" font-size="11.5" font-weight="400" fill="#57606a">do joystick</text>
+<text x="120" y="638" text-anchor="end" font-size="11.5" font-weight="400" fill="#57606a">(10 kΩ)</text>
+<path d="M240,610 H172" fill="none" stroke="#1f6feb" stroke-width="2.6" stroke-linejoin="round"/>
+<path d="M172,610 l12,-6 v12 z" fill="#1f6feb"/>
+<circle cx="240" cy="610" r="8" fill="#1f6feb" stroke="#fff" stroke-width="2"/>
+<text x="236" y="558" text-anchor="middle" font-size="13" font-weight="700" fill="#1f6feb">pino VRy do joystick</text>
+<text x="236" y="574" text-anchor="middle" font-size="11.5" font-weight="400" fill="#1f6feb">(aqui o joystick é "pego")</text>
+<path d="M236,580 V596" stroke="#1f6feb" stroke-width="1.6" marker-end="url(#ar)"/>
+<text x="236" y="640" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1f6feb">0 a 3,3 V</text>
+<path d="M240,610 H285" fill="none" stroke="#1b1f24" stroke-width="2.4" stroke-linejoin="round"/>
+<rect x="285" y="596" width="70" height="28" rx="6" fill="#f4c7b4" stroke="#8a3a1a" stroke-width="1.6"/>
+<text x="320" y="615" text-anchor="middle" font-size="13" font-weight="700" fill="#6b2a10">R5</text>
+<text x="320" y="642" text-anchor="middle" font-size="11.5" font-weight="400" fill="#6b2a10">10 kΩ</text>
+<path d="M355,610 H385" fill="none" stroke="#1b1f24" stroke-width="2.4" stroke-linejoin="round"/>
+<rect x="385" y="596" width="70" height="28" rx="6" fill="#f4c7b4" stroke="#8a3a1a" stroke-width="1.6"/>
+<text x="420" y="615" text-anchor="middle" font-size="13" font-weight="700" fill="#6b2a10">R6</text>
+<text x="420" y="642" text-anchor="middle" font-size="11.5" font-weight="400" fill="#6b2a10">10 kΩ</text>
+<path d="M455,610 H485" fill="none" stroke="#1b1f24" stroke-width="2.4" stroke-linejoin="round"/>
+<rect x="485" y="596" width="70" height="28" rx="6" fill="#f4c7b4" stroke="#8a3a1a" stroke-width="1.6"/>
+<text x="520" y="615" text-anchor="middle" font-size="13" font-weight="700" fill="#6b2a10">R7</text>
+<text x="520" y="642" text-anchor="middle" font-size="11.5" font-weight="400" fill="#6b2a10">10 kΩ</text>
+<path d="M555,610 H600" fill="none" stroke="#1b1f24" stroke-width="2.4" stroke-linejoin="round"/>
+<circle cx="600" cy="610" r="6" fill="#1b1f24"/>
+<text x="600" y="580" text-anchor="middle" font-size="13" font-weight="700" fill="#1b1f24">ponto N</text>
+<text x="600" y="595" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2e8b3a">0 a 0,825 V</text>
+<path d="M600,610 V665" fill="none" stroke="#1b1f24" stroke-width="2.4" stroke-linejoin="round"/>
+<rect x="586" y="665" width="28" height="70" rx="6" fill="#f4c7b4" stroke="#8a3a1a" stroke-width="1.6"/>
+<text x="622" y="698" text-anchor="start" font-size="13" font-weight="700" fill="#6b2a10">R8</text>
+<text x="622" y="714" text-anchor="start" font-size="11.5" font-weight="400" fill="#6b2a10">10 kΩ</text>
+<path d="M600,735 V750" fill="none" stroke="#1b1f24" stroke-width="2.4" stroke-linejoin="round"/>
+<path d="M600,610 H690" fill="none" stroke="#1b1f24" stroke-width="2.4" stroke-linejoin="round"/>
+<rect x="690" y="575" width="115" height="130" rx="9" fill="#e8f3fc" stroke="#2b6cb0" stroke-width="1.8"/>
+<text x="747" y="596" text-anchor="middle" font-size="14" font-weight="700" fill="#0b3d73">XADC</text>
+<text x="747" y="614" text-anchor="middle" font-size="11.5" font-weight="400" fill="#57606a">da FPGA</text>
+<text x="700" y="640" text-anchor="start" font-size="11" font-weight="700" fill="#0b3d73">AD10P</text>
+<text x="700" y="654" text-anchor="start" font-size="10.5" font-weight="400" fill="#57606a">JXADC pino 2</text>
+<path d="M690,685 H655 V750" fill="none" stroke="#1b1f24" stroke-width="2.4" stroke-linejoin="round"/>
+<text x="700" y="682" text-anchor="start" font-size="11" font-weight="700" fill="#0b3d73">AD10N</text>
+<text x="700" y="696" text-anchor="start" font-size="10.5" font-weight="400" fill="#57606a">pino 8 (GND)</text>
+<circle cx="655" cy="750" r="4" fill="#222"/>
+<rect x="860" y="70" width="430" height="730" rx="12" fill="#f0f9f1" stroke="#2e8b3a" stroke-width="1.8"/>
+<text x="882" y="100" text-anchor="start" font-size="17" font-weight="700" fill="#14532d">Cálculo (vale para os dois eixos)</text>
+<text x="882" y="132" text-anchor="start" font-size="14" font-weight="700" fill="#14532d">1) Resistências do divisor</text>
+<text x="882" y="156" text-anchor="start" font-size="13.5" font-weight="400" fill="#1b1f24">Em cima:  R1 + R2 + R3 = 10k + 10k + 10k = 30 kΩ</text>
+<text x="882" y="178" text-anchor="start" font-size="13.5" font-weight="400" fill="#1b1f24">Embaixo:  R4 = 10 kΩ</text>
+<text x="882" y="206" text-anchor="start" font-size="14" font-weight="700" fill="#14532d">2) Fórmula do divisor</text>
+<text x="882" y="230" text-anchor="start" font-size="13.5" font-weight="400" fill="#1b1f24">VN = VRx × R4 ÷ (R1+R2+R3+R4)</text>
+<text x="882" y="252" text-anchor="start" font-size="13.5" font-weight="400" fill="#1b1f24">VN = VRx × 10k ÷ 40k = VRx × 0,25</text>
+<text x="882" y="280" text-anchor="start" font-size="14" font-weight="700" fill="#14532d">3) Resultado nos três pontos do joystick</text>
+<text x="882" y="306" text-anchor="start" font-size="12.5" font-weight="700" fill="#57606a">VRx / VRy</text>
+<text x="1020" y="306" text-anchor="start" font-size="12.5" font-weight="700" fill="#57606a">VN (no XADC)</text>
+<text x="1150" y="306" text-anchor="start" font-size="12.5" font-weight="700" fill="#57606a">Valor 12 bits</text>
+<path d="M882,314 H1270" fill="none" stroke="#9bbf9f" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="882" y="334" text-anchor="start" font-size="13.5" font-weight="400" fill="#1b1f24">mínimo: 0 V</text>
+<text x="1020" y="334" text-anchor="start" font-size="13.5" font-weight="400" fill="#1b1f24">0 V</text>
+<text x="1150" y="334" text-anchor="start" font-size="13.5" font-weight="400" fill="#1b1f24">0</text>
+<text x="882" y="358" text-anchor="start" font-size="13.5" font-weight="400" fill="#1b1f24">centro: 1,65 V</text>
+<text x="1020" y="358" text-anchor="start" font-size="13.5" font-weight="400" fill="#1b1f24">0,4125 V</text>
+<text x="1150" y="358" text-anchor="start" font-size="13.5" font-weight="400" fill="#1b1f24">≈ 1690</text>
+<text x="882" y="382" text-anchor="start" font-size="13.5" font-weight="400" fill="#1b1f24">máximo: 3,3 V</text>
+<text x="1020" y="382" text-anchor="start" font-size="13.5" font-weight="400" fill="#1b1f24">0,825 V</text>
+<text x="1150" y="382" text-anchor="start" font-size="13.5" font-weight="400" fill="#1b1f24">≈ 3379</text>
+<text x="882" y="412" text-anchor="start" font-size="14" font-weight="700" fill="#14532d">4) Está dentro do limite do XADC?</text>
+<text x="882" y="436" text-anchor="start" font-size="13.5" font-weight="400" fill="#1b1f24">Limite do XADC: 1,0 V</text>
+<text x="882" y="456" text-anchor="start" font-size="13.5" font-weight="700" fill="#2e8b3a">Máximo medido: 0,825 V  →  OK, sobra 0,175 V</text>
+<text x="882" y="476" text-anchor="start" font-size="12.5" font-weight="400" fill="#57606a">Com a alimentação 5% acima (3,465 V): 0,866 V, ainda OK</text>
+<text x="882" y="504" text-anchor="start" font-size="14" font-weight="700" fill="#14532d">5) Sobre o limite de 0,8 V</text>
+<text x="882" y="528" text-anchor="start" font-size="13" font-weight="400" fill="#1b1f24">O máximo é 0,825 V, um pouco acima de 0,8 V.</text>
+<text x="882" y="550" text-anchor="start" font-size="13" font-weight="400" fill="#1b1f24">O limite real do XADC é 1,0 V, então não há problema.</text>
+<text x="882" y="572" text-anchor="start" font-size="13" font-weight="400" fill="#1b1f24">Para ficar abaixo de 0,8 V: um 5º resistor de 10 kΩ</text>
+<text x="882" y="594" text-anchor="start" font-size="13" font-weight="400" fill="#1b1f24">em série (50k no total) dá 3,3 × 10/50 = 0,66 V.</text>
+<text x="882" y="622" text-anchor="start" font-size="14" font-weight="700" fill="#14532d">6) Detalhes</text>
+<text x="882" y="646" text-anchor="start" font-size="13" font-weight="400" fill="#1b1f24">Corrente: 3,3 V ÷ 40 kΩ = 83 µA (desprezível).</text>
+<text x="882" y="668" text-anchor="start" font-size="13" font-weight="400" fill="#1b1f24">Carga do potenciômetro: no centro o XADC lê cerca</text>
+<text x="882" y="690" text-anchor="start" font-size="13" font-weight="400" fill="#1b1f24">de 0,388 V em vez de 0,4125 V (6% menos). Por isso</text>
+<text x="882" y="712" text-anchor="start" font-size="13" font-weight="400" fill="#1b1f24">o centro deve ser medido na bancada, não suposto.</text>
+</svg>

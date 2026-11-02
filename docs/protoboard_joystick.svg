@@ -1,0 +1,355 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="1400" height="900" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+<rect width="1400" height="900" fill="#ffffff"/>
+<text x="700.0" y="34" text-anchor="middle" font-size="24" font-weight="700" fill="#1b1f24">Protoboard: divisores de tensão do joystick</text>
+<text x="700.0" y="56" text-anchor="middle" font-size="13" fill="#57606a">Colunas 0 a 29, bloco de cima. Em cada coluna, os furos A a E estão ligados entre si.</text>
+<rect x="72" y="92" width="1216" height="372" rx="12" fill="#faf8f0" stroke="#b9b6a8" stroke-width="1.5"/>
+<line x1="82" y1="106" x2="1278" y2="106" stroke="#d62728" stroke-width="2"/>
+<line x1="82" y1="212" x2="1278" y2="212" stroke="#1f6feb" stroke-width="2"/>
+<text x="100" y="82" text-anchor="middle" font-size="12" fill="#57606a">0</text>
+<circle cx="100" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="100" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="100" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="100" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="100" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="100" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="100" cy="430" r="4" fill="#c4c4c4"/>
+<text x="140" y="82" text-anchor="middle" font-size="12" fill="#57606a">1</text>
+<circle cx="140" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="140" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="140" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="140" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="140" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="140" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="140" cy="430" r="4" fill="#c4c4c4"/>
+<text x="180" y="82" text-anchor="middle" font-size="12" fill="#57606a">2</text>
+<circle cx="180" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="180" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="180" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="180" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="180" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="180" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="180" cy="430" r="4" fill="#c4c4c4"/>
+<text x="220" y="82" text-anchor="middle" font-size="12" fill="#57606a">3</text>
+<circle cx="220" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="220" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="220" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="220" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="220" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="220" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="220" cy="430" r="4" fill="#c4c4c4"/>
+<text x="260" y="82" text-anchor="middle" font-size="12" fill="#57606a">4</text>
+<circle cx="260" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="260" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="260" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="260" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="260" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="260" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="260" cy="430" r="4" fill="#c4c4c4"/>
+<text x="300" y="82" text-anchor="middle" font-size="12" fill="#57606a">5</text>
+<circle cx="300" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="300" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="300" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="300" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="300" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="300" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="300" cy="430" r="4" fill="#c4c4c4"/>
+<text x="340" y="82" text-anchor="middle" font-size="12" fill="#57606a">6</text>
+<circle cx="340" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="340" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="340" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="340" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="340" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="340" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="340" cy="430" r="4" fill="#c4c4c4"/>
+<text x="380" y="82" text-anchor="middle" font-size="12" fill="#57606a">7</text>
+<circle cx="380" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="380" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="380" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="380" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="380" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="380" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="380" cy="430" r="4" fill="#c4c4c4"/>
+<text x="420" y="82" text-anchor="middle" font-size="12" fill="#57606a">8</text>
+<circle cx="420" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="420" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="420" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="420" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="420" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="420" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="420" cy="430" r="4" fill="#c4c4c4"/>
+<text x="460" y="82" text-anchor="middle" font-size="12" fill="#57606a">9</text>
+<circle cx="460" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="460" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="460" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="460" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="460" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="460" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="460" cy="430" r="4" fill="#c4c4c4"/>
+<text x="500" y="82" text-anchor="middle" font-size="12" fill="#57606a">10</text>
+<circle cx="500" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="500" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="500" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="500" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="500" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="500" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="500" cy="430" r="4" fill="#c4c4c4"/>
+<text x="540" y="82" text-anchor="middle" font-size="12" fill="#57606a">11</text>
+<circle cx="540" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="540" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="540" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="540" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="540" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="540" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="540" cy="430" r="4" fill="#c4c4c4"/>
+<text x="580" y="82" text-anchor="middle" font-size="12" fill="#57606a">12</text>
+<circle cx="580" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="580" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="580" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="580" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="580" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="580" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="580" cy="430" r="4" fill="#c4c4c4"/>
+<text x="620" y="82" text-anchor="middle" font-size="12" fill="#57606a">13</text>
+<circle cx="620" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="620" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="620" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="620" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="620" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="620" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="620" cy="430" r="4" fill="#c4c4c4"/>
+<text x="660" y="82" text-anchor="middle" font-size="12" fill="#57606a">14</text>
+<circle cx="660" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="660" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="660" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="660" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="660" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="660" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="660" cy="430" r="4" fill="#c4c4c4"/>
+<text x="700" y="82" text-anchor="middle" font-size="12" fill="#57606a">15</text>
+<circle cx="700" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="700" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="700" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="700" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="700" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="700" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="700" cy="430" r="4" fill="#c4c4c4"/>
+<text x="740" y="82" text-anchor="middle" font-size="12" fill="#57606a">16</text>
+<circle cx="740" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="740" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="740" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="740" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="740" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="740" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="740" cy="430" r="4" fill="#c4c4c4"/>
+<text x="780" y="82" text-anchor="middle" font-size="12" fill="#57606a">17</text>
+<circle cx="780" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="780" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="780" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="780" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="780" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="780" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="780" cy="430" r="4" fill="#c4c4c4"/>
+<text x="820" y="82" text-anchor="middle" font-size="12" fill="#57606a">18</text>
+<circle cx="820" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="820" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="820" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="820" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="820" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="820" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="820" cy="430" r="4" fill="#c4c4c4"/>
+<text x="860" y="82" text-anchor="middle" font-size="12" fill="#57606a">19</text>
+<circle cx="860" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="860" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="860" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="860" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="860" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="860" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="860" cy="430" r="4" fill="#c4c4c4"/>
+<text x="900" y="82" text-anchor="middle" font-size="12" fill="#57606a">20</text>
+<circle cx="900" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="900" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="900" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="900" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="900" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="900" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="900" cy="430" r="4" fill="#c4c4c4"/>
+<text x="940" y="82" text-anchor="middle" font-size="12" fill="#57606a">21</text>
+<circle cx="940" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="940" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="940" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="940" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="940" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="940" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="940" cy="430" r="4" fill="#c4c4c4"/>
+<text x="980" y="82" text-anchor="middle" font-size="12" fill="#57606a">22</text>
+<circle cx="980" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="980" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="980" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="980" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="980" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="980" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="980" cy="430" r="4" fill="#c4c4c4"/>
+<text x="1020" y="82" text-anchor="middle" font-size="12" fill="#57606a">23</text>
+<circle cx="1020" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="1020" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="1020" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="1020" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="1020" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="1020" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="1020" cy="430" r="4" fill="#c4c4c4"/>
+<text x="1060" y="82" text-anchor="middle" font-size="12" fill="#57606a">24</text>
+<circle cx="1060" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="1060" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="1060" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="1060" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="1060" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="1060" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="1060" cy="430" r="4" fill="#c4c4c4"/>
+<text x="1100" y="82" text-anchor="middle" font-size="12" fill="#57606a">25</text>
+<circle cx="1100" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="1100" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="1100" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="1100" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="1100" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="1100" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="1100" cy="430" r="4" fill="#c4c4c4"/>
+<text x="1140" y="82" text-anchor="middle" font-size="12" fill="#57606a">26</text>
+<circle cx="1140" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="1140" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="1140" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="1140" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="1140" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="1140" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="1140" cy="430" r="4" fill="#c4c4c4"/>
+<text x="1180" y="82" text-anchor="middle" font-size="12" fill="#57606a">27</text>
+<circle cx="1180" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="1180" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="1180" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="1180" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="1180" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="1180" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="1180" cy="430" r="4" fill="#c4c4c4"/>
+<text x="1220" y="82" text-anchor="middle" font-size="12" fill="#57606a">28</text>
+<circle cx="1220" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="1220" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="1220" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="1220" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="1220" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="1220" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="1220" cy="430" r="4" fill="#c4c4c4"/>
+<text x="1260" y="82" text-anchor="middle" font-size="12" fill="#57606a">29</text>
+<circle cx="1260" cy="146" r="4" fill="#c4c4c4"/>
+<circle cx="1260" cy="194" r="4" fill="#c4c4c4"/>
+<circle cx="1260" cy="270" r="4" fill="#c4c4c4"/>
+<circle cx="1260" cy="310" r="4" fill="#c4c4c4"/>
+<circle cx="1260" cy="350" r="4" fill="#c4c4c4"/>
+<circle cx="1260" cy="390" r="4" fill="#c4c4c4"/>
+<circle cx="1260" cy="430" r="4" fill="#c4c4c4"/>
+<text x="48" y="151" text-anchor="middle" font-size="18" font-weight="700" fill="#d62728">+</text>
+<text x="48" y="200" text-anchor="middle" font-size="22" font-weight="700" fill="#1f6feb">−</text>
+<text x="48" y="276" text-anchor="middle" font-size="16" font-weight="700" fill="#57606a">A</text>
+<text x="48" y="316" text-anchor="middle" font-size="16" font-weight="700" fill="#57606a">B</text>
+<text x="48" y="356" text-anchor="middle" font-size="16" font-weight="700" fill="#57606a">C</text>
+<text x="48" y="396" text-anchor="middle" font-size="16" font-weight="700" fill="#57606a">D</text>
+<text x="48" y="436" text-anchor="middle" font-size="16" font-weight="700" fill="#57606a">E</text>
+<line x1="140" y1="350" x2="300" y2="350" stroke="#333" stroke-width="2.2"/>
+<rect x="186.0" y="336" width="68" height="28" rx="7" fill="#f4c7b4" stroke="#8a3a1a" stroke-width="1.4"/>
+<text x="220.0" y="355" text-anchor="middle" font-size="13" fill="#6b2a10">R1</text>
+<circle cx="140" cy="350" r="6" fill="#d9532c" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="300" cy="350" r="6" fill="#d9532c" stroke="#ffffff" stroke-width="1.5"/>
+<line x1="300" y1="390" x2="460" y2="390" stroke="#333" stroke-width="2.2"/>
+<rect x="346.0" y="376" width="68" height="28" rx="7" fill="#f4c7b4" stroke="#8a3a1a" stroke-width="1.4"/>
+<text x="380.0" y="395" text-anchor="middle" font-size="13" fill="#6b2a10">R2</text>
+<circle cx="300" cy="390" r="6" fill="#d9532c" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="460" cy="390" r="6" fill="#d9532c" stroke="#ffffff" stroke-width="1.5"/>
+<line x1="460" y1="350" x2="620" y2="350" stroke="#333" stroke-width="2.2"/>
+<rect x="506.0" y="336" width="68" height="28" rx="7" fill="#f4c7b4" stroke="#8a3a1a" stroke-width="1.4"/>
+<text x="540.0" y="355" text-anchor="middle" font-size="13" fill="#6b2a10">R3</text>
+<circle cx="460" cy="350" r="6" fill="#d9532c" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="620" cy="350" r="6" fill="#d9532c" stroke="#ffffff" stroke-width="1.5"/>
+<line x1="780" y1="350" x2="940" y2="350" stroke="#333" stroke-width="2.2"/>
+<rect x="826.0" y="336" width="68" height="28" rx="7" fill="#f4c7b4" stroke="#8a3a1a" stroke-width="1.4"/>
+<text x="860.0" y="355" text-anchor="middle" font-size="13" fill="#6b2a10">R5</text>
+<circle cx="780" cy="350" r="6" fill="#d9532c" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="940" cy="350" r="6" fill="#d9532c" stroke="#ffffff" stroke-width="1.5"/>
+<line x1="940" y1="390" x2="1100" y2="390" stroke="#333" stroke-width="2.2"/>
+<rect x="986.0" y="376" width="68" height="28" rx="7" fill="#f4c7b4" stroke="#8a3a1a" stroke-width="1.4"/>
+<text x="1020.0" y="395" text-anchor="middle" font-size="13" fill="#6b2a10">R6</text>
+<circle cx="940" cy="390" r="6" fill="#d9532c" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="1100" cy="390" r="6" fill="#d9532c" stroke="#ffffff" stroke-width="1.5"/>
+<line x1="1100" y1="350" x2="1260" y2="350" stroke="#333" stroke-width="2.2"/>
+<rect x="1146.0" y="336" width="68" height="28" rx="7" fill="#f4c7b4" stroke="#8a3a1a" stroke-width="1.4"/>
+<text x="1180.0" y="355" text-anchor="middle" font-size="13" fill="#6b2a10">R7</text>
+<circle cx="1100" cy="350" r="6" fill="#d9532c" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="1260" cy="350" r="6" fill="#d9532c" stroke="#ffffff" stroke-width="1.5"/>
+<line x1="620" y1="194" x2="620" y2="270" stroke="#333" stroke-width="2.2"/>
+<rect x="606" y="198.0" width="28" height="68" rx="7" fill="#f4c7b4" stroke="#8a3a1a" stroke-width="1.4"/>
+<text x="644" y="237.0" font-size="13" fill="#6b2a10">R4</text>
+<circle cx="620" cy="194" r="6" fill="#d9532c" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="620" cy="270" r="6" fill="#d9532c" stroke="#ffffff" stroke-width="1.5"/>
+<line x1="1260" y1="194" x2="1260" y2="270" stroke="#333" stroke-width="2.2"/>
+<rect x="1246" y="198.0" width="28" height="68" rx="7" fill="#f4c7b4" stroke="#8a3a1a" stroke-width="1.4"/>
+<text x="1284" y="237.0" font-size="13" fill="#6b2a10">R8</text>
+<circle cx="1260" cy="194" r="6" fill="#d9532c" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="1260" cy="270" r="6" fill="#d9532c" stroke="#ffffff" stroke-width="1.5"/>
+<line x1="140" y1="430" x2="140" y2="508" stroke="#1f6feb" stroke-width="5" stroke-linecap="round"/>
+<circle cx="140" cy="430" r="9" fill="#1f6feb" stroke="#ffffff" stroke-width="1.5"/>
+<text x="120" y="534" text-anchor="start" font-size="16" font-weight="700" fill="#0b3d73">E1</text>
+<text x="120" y="554" text-anchor="start" font-size="13" fill="#0b3d73">← VRx do joystick</text>
+<line x1="620" y1="430" x2="620" y2="508" stroke="#1f6feb" stroke-width="5" stroke-linecap="round"/>
+<circle cx="620" cy="430" r="9" fill="#1f6feb" stroke="#ffffff" stroke-width="1.5"/>
+<text x="620" y="534" text-anchor="middle" font-size="16" font-weight="700" fill="#0b3d73">E13</text>
+<text x="620" y="554" text-anchor="middle" font-size="13" fill="#0b3d73">→ JXADC pino 1 (AD3P)</text>
+<line x1="780" y1="430" x2="780" y2="508" stroke="#1f6feb" stroke-width="5" stroke-linecap="round"/>
+<circle cx="780" cy="430" r="9" fill="#1f6feb" stroke="#ffffff" stroke-width="1.5"/>
+<text x="780" y="534" text-anchor="middle" font-size="16" font-weight="700" fill="#0b3d73">E17</text>
+<text x="780" y="554" text-anchor="middle" font-size="13" fill="#0b3d73">← VRy do joystick</text>
+<line x1="1260" y1="430" x2="1260" y2="508" stroke="#1f6feb" stroke-width="5" stroke-linecap="round"/>
+<circle cx="1260" cy="430" r="9" fill="#1f6feb" stroke="#ffffff" stroke-width="1.5"/>
+<text x="1280" y="534" text-anchor="end" font-size="16" font-weight="700" fill="#0b3d73">E29</text>
+<text x="1280" y="554" text-anchor="end" font-size="13" fill="#0b3d73">→ JXADC pino 2 (AD10P)</text>
+<circle cx="180" cy="194" r="8" fill="#222" stroke="#ffffff" stroke-width="1.5"/>
+<text x="180" y="180" text-anchor="middle" font-size="12" font-weight="700" fill="#222">G1</text>
+<circle cx="260" cy="194" r="8" fill="#222" stroke="#ffffff" stroke-width="1.5"/>
+<text x="260" y="180" text-anchor="middle" font-size="12" font-weight="700" fill="#222">G2</text>
+<circle cx="340" cy="194" r="8" fill="#222" stroke="#ffffff" stroke-width="1.5"/>
+<text x="340" y="180" text-anchor="middle" font-size="12" font-weight="700" fill="#222">G3</text>
+<circle cx="420" cy="194" r="8" fill="#222" stroke="#ffffff" stroke-width="1.5"/>
+<text x="420" y="180" text-anchor="middle" font-size="12" font-weight="700" fill="#222">G4</text>
+<circle cx="180" cy="146" r="8" fill="#d62728" stroke="#ffffff" stroke-width="1.5"/>
+<text x="180" y="132" text-anchor="middle" font-size="12" font-weight="700" fill="#d62728">V1</text>
+<circle cx="260" cy="146" r="8" fill="#d62728" stroke="#ffffff" stroke-width="1.5"/>
+<text x="260" y="132" text-anchor="middle" font-size="12" font-weight="700" fill="#d62728">V2</text>
+<rect x="72" y="590" width="400" height="290" rx="12" fill="#fbece6" stroke="#b9552b" stroke-width="1.5"/>
+<text x="92" y="622" font-size="16" font-weight="700" fill="#6b2a10">Resistores 10 kΩ (marrom, preto, laranja)</text>
+<text x="92" y="650" font-size="13.5" fill="#6b2a10"><tspan font-weight="700">R1</tspan> C1 → C5</text>
+<text x="92" y="674" font-size="13.5" fill="#6b2a10"><tspan font-weight="700">R2</tspan> D5 → D9</text>
+<text x="92" y="698" font-size="13.5" fill="#6b2a10"><tspan font-weight="700">R3</tspan> C9 → C13</text>
+<text x="92" y="722" font-size="13.5" fill="#6b2a10"><tspan font-weight="700">R4</tspan> A13 → trilho −</text>
+<text x="92" y="746" font-size="13.5" fill="#6b2a10"><tspan font-weight="700">R5</tspan> C17 → C21</text>
+<text x="92" y="770" font-size="13.5" fill="#6b2a10"><tspan font-weight="700">R6</tspan> D21 → D25</text>
+<text x="92" y="794" font-size="13.5" fill="#6b2a10"><tspan font-weight="700">R7</tspan> C25 → C29</text>
+<text x="92" y="818" font-size="13.5" fill="#6b2a10"><tspan font-weight="700">R8</tspan> A29 → trilho −</text>
+<text x="92" y="842" font-size="12" fill="#57606a">Cada eixo: 30 kΩ em série + 10 kΩ para o GND.</text>
+<text x="92" y="866" font-size="12" fill="#57606a">3,3 V no joystick vira cerca de 0,8 V no XADC.</text>
+<rect x="492" y="590" width="420" height="290" rx="12" fill="#e8f3fc" stroke="#2b6cb0" stroke-width="1.5"/>
+<text x="512" y="622" font-size="16" font-weight="700" fill="#0b3d73">Fios até a Nexys A7 (conector JXADC)</text>
+<text x="512" y="650" font-size="13.5" fill="#0b3d73"><tspan font-weight="700">E13</tspan> → pino 1 (AD3P)</text>
+<text x="512" y="674" font-size="13.5" fill="#0b3d73"><tspan font-weight="700">E29</tspan> → pino 2 (AD10P)</text>
+<text x="512" y="698" font-size="13.5" fill="#0b3d73"><tspan font-weight="700">G2</tspan> → pino 7 (AD3N)</text>
+<text x="512" y="722" font-size="13.5" fill="#0b3d73"><tspan font-weight="700">G3</tspan> → pino 8 (AD10N)</text>
+<text x="512" y="746" font-size="13.5" fill="#0b3d73"><tspan font-weight="700">G4</tspan> → pino 5 (GND)</text>
+<text x="512" y="770" font-size="13.5" fill="#0b3d73"><tspan font-weight="700">V1</tspan> → pino 6 (3V3)</text>
+<text x="512" y="794" font-size="12" fill="#57606a">Pinos 1 a 6: fileira de cima. Pinos 7 a 12: fileira de baixo.</text>
+<text x="512" y="818" font-size="12" fill="#57606a">O pino 1 fica na ponta do conector perto do áudio.</text>
+<rect x="932" y="590" width="356" height="290" rx="12" fill="#eef9ef" stroke="#2e8b3a" stroke-width="1.5"/>
+<text x="952" y="622" font-size="16" font-weight="700" fill="#14532d">Pinos do joystick</text>
+<text x="952" y="650" font-size="13.5" fill="#14532d"><tspan font-weight="700">GND</tspan> → G1 (trilho −)</text>
+<text x="952" y="674" font-size="13.5" fill="#14532d"><tspan font-weight="700">+5V</tspan> → V2 (trilho +)</text>
+<text x="952" y="698" font-size="13.5" fill="#14532d"><tspan font-weight="700">VRx</tspan> → E1</text>
+<text x="952" y="722" font-size="13.5" fill="#14532d"><tspan font-weight="700">VRy</tspan> → E17</text>
+<text x="952" y="746" font-size="13.5" fill="#14532d"><tspan font-weight="700">SW</tspan> → direto na FPGA: JB pino 1 (D14)</text>
+<text x="952" y="770" font-size="12" fill="#57606a">O trilho + recebe 3,3 V do JXADC (V1 e V2 ficam ligados).</text>
+<text x="952" y="794" font-size="12" fill="#57606a">O pino "+5V" do módulo fica com 3,3 V, nunca com 5 V.</text>
+<text x="952" y="818" font-size="12" fill="#57606a">O SW fica em 0 quando apertado (pull-up interno).</text>
+</svg>

@@ -1,6 +1,3 @@
-
----
-
 ## O que é este projeto
 
 Um HUD de avião, como aqueles que aparecem na frente do piloto. Cada pixel da tela é calculado na hora, em lógica digital, enquanto o monitor varre a imagem. Os instrumentos reagem a sensores reais ligados na placa:
@@ -60,7 +57,10 @@ Todo instrumento segue o mesmo caminho, em três etapas:
 ├── xdc/
 │   └── nexysA7_hudTop.xdc ← qual sinal vai em qual pino da placa
 └── docs/
-    └── esquematico.svg ← esquema de ligação (imagem do README)
+    ├── esquematico.svg ← esquema de ligação da placa
+    ├── diagrama_blocos.svg ← diagrama de blocos do HUD
+    ├── circuito_joystick.svg ← circuito simplificado e cálculos do joystick
+    └── protoboard_joystick.svg ← montagem da protoboard do joystick
 ```
 
 ---
@@ -92,9 +92,78 @@ Todo instrumento segue o mesmo caminho, em três etapas:
 - **Monitor:** cabo VGA na saída da placa.
 - **Barômetro BMP085:** cinco fios no **Pmod JA** (pino 1 `SDA`, 2 `SCL`, 3 `XCLR`, 5 GND, 6 3,3 V). O módulo precisa ser de **3,3 V**.
 - **Acelerômetro ADXL362:** já vem soldado na placa, não precisa ligar nada.
-- O acelerômetro ADXL362 já está soldado na placa, não precisa ligar nada.
+- **Joystick:** analógico, ligado no conector **JXADC** e no **Pmod JB** (veja a seção abaixo).
 
 ---
+
+## Joystick: como pegar o input
+
+O joystick do projeto é um módulo **analógico** (tipo KY-023 / HW-504), com 5 pinos: `GND`, `+5V`, `VRx`, `VRy` e `SW`. Ele não é SPI nem I2C. Cada eixo (`VRx` e `VRy`) é um potenciômetro que entrega uma **tensão**, e o `SW` é o botão de apertar.
+
+> **Status:** a ligação de hardware está definida (abaixo). A leitura dentro da FPGA ainda será implementada, veja os próximos passos.
+
+### Por que não liga direto na FPGA
+
+- A FPGA só lê sinais digitais (0 ou 1). Os eixos do joystick são tensões que variam de 0 até a tensão de alimentação.
+- Para medir essa tensão usa-se o **XADC**, o conversor analógico-digital que já existe dentro da Artix-7. Ele fica no conector **JXADC** da placa.
+- O XADC aceita só **0 a 1 V** na entrada. Por isso cada eixo passa por um **divisor de tensão** antes de entrar.
+
+### Passo 1: alimentar o joystick com 3,3 V
+
+Ligue o pino marcado **`+5V`** do joystick no **3V3** do JXADC (pino 6). Os potenciômetros funcionam normalmente com 3,3 V, e assim a saída nunca passa de 3,3 V.
+
+> **Atenção:** nunca ligue o `+5V` do joystick em 5 V de verdade. A saída chegaria a 5 V e danificaria a FPGA.
+
+### Passo 2: montar o divisor de tensão de cada eixo
+
+Cada eixo usa **3 resistores de 10 kΩ em série** (30 kΩ) e **1 resistor de 10 kΩ para o GND**. O desenho abaixo mostra o circuito simplificado, sem a protoboard. O ponto azul é onde o joystick é "pego" (`VRx` e `VRy`), e o ponto **N** é o que entra no XADC.
+
+<p align="center">
+  <img src="docs/circuito_joystick.svg" alt="Circuito simplificado do joystick: divisor de tensão de cada eixo até o XADC" width="100%">
+</p>
+
+**Cálculo (vale para os dois eixos):**
+
+```
+VN = VRx × 10k ÷ (10k + 10k + 10k + 10k) = VRx × 0,25
+```
+
+| Posição do joystick | `VRx` / `VRy` | `VN` (entra no XADC) | Valor de 12 bits |
+|---|:---:|:---:|:---:|
+| Mínimo | 0 V | 0 V | 0 |
+| Centro | 1,65 V | 0,4125 V | cerca de 1690 |
+| Máximo | 3,3 V | 0,825 V | cerca de 3379 |
+
+- O máximo (0,825 V) fica abaixo do limite de **1 V** do XADC, com folga de 0,175 V. Mesmo com a alimentação 5% acima do normal, seria 0,866 V.
+- Se quiser ficar abaixo de 0,8 V, coloque um 4º resistor de 10 kΩ em série em cima (50 kΩ no total): o máximo cai para 0,66 V.
+- A corrente é de 3,3 V ÷ 40 kΩ, cerca de 83 µA.
+- O potenciômetro do joystick (supondo 10 kΩ) carrega um pouco o divisor, então o centro real fica perto de 0,388 V. Meça o centro na bancada em vez de supor.
+
+A montagem na protoboard é esta:
+
+<p align="center">
+  <img src="docs/protoboard_joystick.svg" alt="Montagem da protoboard com os divisores de tensão do joystick" width="100%">
+</p>
+
+### Passo 3: ligar tudo
+
+| Origem | Destino |
+|---|---|
+| Joystick `GND` | Trilho `−` da protoboard (G1) |
+| Joystick `+5V` | Trilho `+` da protoboard (V2), que recebe 3,3 V do JXADC |
+| Joystick `VRx` | Protoboard, furo E1 |
+| Joystick `VRy` | Protoboard, furo E17 |
+| Protoboard E13 (saída do divisor de VRx) | JXADC pino 1 (`AD3P`) |
+| Protoboard E29 (saída do divisor de VRy) | JXADC pino 2 (`AD10P`) |
+| Trilho `−` (G2) | JXADC pino 7 (`AD3N`) |
+| Trilho `−` (G3) | JXADC pino 8 (`AD10N`) |
+| Trilho `−` (G4) | JXADC pino 5 (GND) |
+| Trilho `+` (V1) | JXADC pino 6 (3V3) |
+| Joystick `SW` | **Direto** na FPGA: Pmod JB pino 1 (`D14`), sem passar pela protoboard |
+
+- Os pinos do JXADC são numerados de 1 a 12. Os pinos 1 e 7 ficam lado a lado, na ponta oposta aos pinos de GND (5 e 11) e 3V3 (6 e 12).
+- O `SW` fica em **1** solto e em **0** apertado, usando o pull-up interno da FPGA. Será o gatilho do lock da mira.
+
 
 ## Gerando o bitstream sem abrir o Vivado
 
@@ -179,9 +248,9 @@ Parâmetros de ajuste: `INVERT`, `PX_PER_METER`, `FILT_SHIFT`, `ALT_LIMIT`, `SET
 ## Próximos passos
 
 - Controle da **mira / alvo** por joystick, com travamento (lock).
-  O joystick que temos é analógico, então serão necessários um divisor de tensão e o **XADC** da FPGA. A alternativa é um Pmod JSTK2 (SPI).
-- Travamento da mira **relativo ao horizonte**, como pede a especificação.
+  A ligação com divisor de tensão e **XADC** já está definida acima. Falta escrever o módulo de leitura do XADC e o módulo que desenha e trava a mira.
 - Fazer o vídeo aparecer atrás dos retículos.
+
 ---
 
 ## Tecnologias

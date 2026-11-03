@@ -186,8 +186,10 @@ compassGen compassGen(
 );
 
 // ---------- Barômetro (I2C) ----------
-// Cadeia: sensor --I2C--> bmp085_reader (usa o i2c_master) --> barToAlt --> altGen
+// Cadeia: sensor --I2C--> bmp085_reader (usa o i2c_master) --> baroCompensate --> barToAlt --> altGen
 logic [15:0] pressRaw;
+logic [15:0] tempRaw;
+logic [7:0] baroCalib [0:21];
 logic pressValid, baroError;
 
 assign BARO_XCLR = 1'b1; // XCLR é o reset do sensor (ativo em 0). Em 1 o sensor fica ligado.
@@ -203,12 +205,27 @@ bmp085_reader #(
     .rst(~rstN),
     .scl(BARO_SCL),
     .sda(BARO_SDA),
-    .temp_raw(), // a temperatura não é usada
+    .temp_raw(tempRaw), // temperatura crua: o baroCompensate usa para tirar o efeito da temperatura da pressão
     .press_raw(pressRaw),
     .data_valid(pressValid),
     .error(baroError),
-    .calib(), // os números de calibração não são usados
+    .calib(baroCalib), // números de calibração do sensor: o baroCompensate usa na conta do datasheet
     .debug()
+);
+
+// Pressão verdadeira em Pascal, já corrigida pela temperatura (sem isso o número cru foge ~19 m por grau).
+logic [19:0] pressPa;
+logic pressPaValid;
+
+baroCompensate baroCompensate (
+    .clk(clk25),
+    .rst_n(rstN),
+    .ut(tempRaw),
+    .up(pressRaw),
+    .calib(baroCalib),
+    .start(pressValid),
+    .pressPa(pressPa),
+    .valid(pressPaValid)
 );
 
 // LED1: acende na primeira leitura boa e apaga se der erro (igual ao sensor_ok do top de teste)
@@ -224,15 +241,33 @@ assign LED1 = baroOk;
 
 logic signed [11:0] baroAltOffset;
 
-// Sem zeroRef por enquanto (1'b0): a altura "zero" é a de quando o reset foi solto. Apertar o reset zera de novo.
+// Altura "zero": enquanto SW2 estiver desligada, a referência fica sendo refeita (zeroRef = 1).
+// Quando SW2 liga, ele espera ~2 s (SETTLE_READS leituras), guarda a pressão daquele momento como zero e a escala começa em 0.
+// Assim o zero é o de quando você ligou o switch, e não o do reset (que já teria ficado velho por causa do calor do sensor).
+logic [1:0] sw2Sync;
+
+always_ff @(posedge clk25 or negedge rstN) begin
+    if(!rstN) sw2Sync <= 2'b00;
+    else      sw2Sync <= {sw2Sync[0], SW2};
+end
+
+// Ajustes do altímetro (se não fizer o que você quer, mexa só nesses dois números):
+//   PX_PER_METER: pixels que a escala anda por metro. Maior = mexe mais (e treme mais).
+//   FILT_SHIFT  : suavização. Maior = mais estável e mais lento (4 = ~1,8 s de atraso, 5 = ~3,6 s).
+//   HYST_PX     : zona morta em pixels. A escala só se mexe se o valor novo passar disso. Maior = mais parada (e anda em degraus maiores).
 barToAlt #(
-    .INVERT(1'b0)
+    .INVERT(1'b0), // 0 = subiu a placa -> a escala (e a marca do zero) desce na tela, como num avião. Com 1 é o contrário.
+    .PX_PER_METER(150),
+    .FILT_SHIFT(5), // filtro lento: vale quando a placa está parada (só ruído)
+    .FAST_ERR_PA(14), // se a leitura se afastar mais que 14 Pa (~1,2 m) do valor filtrado, o filtro passa a ser rápido
+    .FILT_SHIFT_FAST(2), // filtro rápido: anda 1/4 do caminho a cada leitura
+    .HYST_PX(24)
 ) barToAlt (
     .clk(clk25),
     .rst_n(rstN),
-    .pressRaw(pressRaw),
-    .pressValid(pressValid),
-    .zeroRef(1'b0),
+    .pressPa(pressPa),
+    .pressValid(pressPaValid),
+    .zeroRef(~sw2Sync[1]),
     .altOffset(baroAltOffset)
 );
 

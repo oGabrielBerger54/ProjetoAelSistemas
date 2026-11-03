@@ -159,9 +159,10 @@ logic [3:0] compassFrac;
 
 // SWAP_XY igual ao do accelToHorizon. Se empurrar para a direita DIMINUIR o ângulo, ponha INVERT em 1'b1.
 accelToCompass #(
-    .SWAP_XY(1'b0),
-    .INVERT (1'b0),
-    .LOCKOUT_READS(15),
+    .SWAP_XY(1'b1),
+    .INVERT (1'b1),
+    .FLICK_MG(150),
+    .LOCKOUT_READS(80),
     .SLEW(512)  
 ) accelToCompass (
     .clk(clk25),

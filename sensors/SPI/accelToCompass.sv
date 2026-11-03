@@ -27,6 +27,7 @@ module accelToCompass #(
     parameter bit INVERT  = 1'b0, // 1 = troca os lados 
 
     parameter int HP_SHIFT = 5, // quão devagar a média lenta acompanha a leitura. Maior = mais lenta.
+    parameter int LOCK_AVG_SHIFT = 2, // o mesmo, mas DURANTE a pausa depois de um empurrão: a média corre atrás da placa para ela já estar firme quando a pausa acabar. Menor = mais rápida. Assim a placa que ainda está assentando (inclinação depois do empurrão) não conta como um empurrão ao contrário.
 
     parameter int FLICK_MG = 200, // O que é um empurrão? --> força mínima do empurrão, em mg. Empurrou e nada aconteceu? Diminua. Conta empurrão sozinho? Aumente.
     parameter int LOCKOUT_READS = 40, // quantas leituras ignorar depois de um empurrão. Precisa cobrir o tempo de parar a placa. Se o ângulo "volta sozinho" depois do empurrão, aumente.
@@ -60,6 +61,7 @@ end
 // A média lenta vai se aproximando da leitura aos poucos, até chegar nesses 300 mg.
 // Um empurrão é rápido demais: a média quase não se mexe durante ele. Por isso a diferença "leitura - média" mostra só o empurrão.
 logic signed [17:0] slowAvg; // média lenta, guardada x16
+logic [7:0] lockout; // quantas leituras ainda faltam ignorar (0 = pode contar empurrão). Declarado aqui porque a média lenta também usa.
 
 function automatic logic signed [17:0] iirStep(
     input logic signed [17:0] currentFilteredVal, // valor atual da média (x16)
@@ -77,7 +79,7 @@ endfunction
 
 always_ff @(posedge clk or negedge rst_n) begin
     if(!rst_n) slowAvg <= '0;
-    else if(accelValid) slowAvg <= iirStep(slowAvg, rawSide, HP_SHIFT); // só atualiza quando chega leitura nova
+    else if(accelValid) slowAvg <= iirStep(slowAvg, rawSide, (lockout != 0) ? LOCK_AVG_SHIFT : HP_SHIFT); // só atualiza quando chega leitura nova. Na pausa anda rápido, fora dela anda devagar.
 end
 
 // Placa parada (plana ou inclinada): leitura e média são iguais, então a força é ~0.
@@ -92,7 +94,6 @@ end
 // No ciclo do accelValid a média lenta ainda está sendo atualizada, e só no ciclo seguinte ela já tem o valor novo.
 
 logic validD; // accelValid atrasado em 1 ciclo
-logic [7:0] lockout; // quantas leituras ainda faltam ignorar (0 = pode contar empurrão)
 logic signed [17:0] pending; // quanto ainda falta o ângulo andar (em 1/256 de grau)
 logic [16:0] angleAcc; // ângulo atual (em 1/256 de grau, de 0 a 92159)
 

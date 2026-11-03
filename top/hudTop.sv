@@ -10,6 +10,8 @@ module hudTop (
     input logic SW2,
     // Switch da mira: SW[3] = 1 -> a mira aparece e segue o joystick / SW[3] = 0 -> mira escondida
     input logic SW3,
+    // Switch do modo declutter: SW[14] = 1 -> só o retículo central e a linha do horizonte aparecem (some altitude, bússola e mira) / SW[14] = 0 -> tudo aparece
+    input logic SW14,
 
     // Joystick analógico no conector JXADC (o divisor de tensão fica na protoboard)
     input logic vauxp3,   // JXADC pino 1: eixo X (VRx)
@@ -354,8 +356,9 @@ parameter [3:0] BGB = 4'h9;
 
 always_comb begin
     if(validPixel) begin
-        // SW3 vem de um switch (assíncrono): só liga/desliga o desenho da mira, no máximo 1 quadro errado.
-        if(drawReticle || drawHorizon || drawAlt || drawCompass || (SW3 && drawTarget)) begin
+        // SW3 e SW14 vêm de switches (assíncronos): só ligam/desligam desenhos, no máximo 1 quadro errado.
+        // Declutter (SW14 = 1): sobram só o retículo central e a linha do horizonte.
+        if(drawReticle || drawHorizon || (!SW14 && (drawAlt || drawCompass || (SW3 && drawTarget)))) begin
             VGAR = 4'h0;
             VGAG = 4'hF;
             VGAB = 4'h0;

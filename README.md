@@ -183,7 +183,7 @@ Os dois scripts seguem o roteiro dos slides da disciplina (síntese em TCL).
 
 ### Requisitos
 
-- **Vivado** instalado (testado na 2026.1). A FPGA do projeto é a `xc7a100tcsg324-1`.
+- **Vivado** instalado (testado na 2024.2). A FPGA do projeto é a `xc7a100tcsg324-1`.
 - Para gravar: placa ligada no USB (porta PROG/UART) e chave de energia ligada.
 
 ### 1) Gerar o `hudTop.bit` — `build.tcl`

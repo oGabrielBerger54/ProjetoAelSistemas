@@ -151,7 +151,7 @@ VN = VRx × 10k ÷ (10k + 10k + 10k + 10k) = VRx × 0,25
 - A corrente é de 3,3 V ÷ 40 kΩ, cerca de 83 µA.
 - O potenciômetro do joystick (supondo 10 kΩ) carrega um pouco o divisor, então o centro real fica perto de 0,388 V. Meça o centro na bancada em vez de supor.
 
-A montagem na protoboard é esta:
+A montagem na protoboard é esta (letras A a E em cima e números nos lados, igual à nossa protoboard):
 
 <p align="center">
   <img src="docs/protoboard_joystick.svg" alt="Montagem da protoboard com os divisores de tensão do joystick" width="100%">

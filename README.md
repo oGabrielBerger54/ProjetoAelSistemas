@@ -8,6 +8,7 @@ Um HUD de avião, como aqueles que aparecem na frente do piloto. Cada pixel da t
 |  **Bússola** | Fita de graus que desliza para os lados | Acelerômetro (empurrões laterais na placa; simulação, não é o norte real) |
 |  **Altímetro** | Fita de altitude com ponteiro | Barômetro **BMP085** (I2C, no Pmod JA) |
 |  **Retículo** | Cruz fixa no centro da tela | Desenho fixo |
+|  **Mira** | Quadrado que segue o joystick e pode travar | Joystick analógico (lido pelo **XADC**), botão do joystick para travar |
 
 ---
 
@@ -20,7 +21,7 @@ Todo instrumento segue o mesmo caminho, em três etapas:
 </p>
 
 1. **Controlador:** conversa com o sensor e entrega um número limpo.
-2. **Conversão (`accelTo…`, `barToAlt`):** transforma esse número em algo que o desenho entende: ângulo do horizonte, grau da bússola, deslocamento da fita em pixels. Aqui entram filtros (média móvel exponencial) e limites.
+2. **Conversão (`accelTo…`, `barToAlt`, `xadcToJoy` + `joyToTarget`):** transforma esse número em algo que o desenho entende: ângulo do horizonte, grau da bússola, deslocamento da fita em pixels, posição da mira. Aqui entram filtros (média móvel exponencial) e limites.
 3. **Gerador de desenho (`…Gen`):** recebe a posição do pixel atual (`x`, `y`) e responde apenas **"desenha ou não desenha?"**. O `hudTop` junta as respostas e pinta.
 
 >  O relógio da placa é de 100 MHz. O projeto usa um **clock de 25 MHz** (100 MHz ÷ 4), que é o clock de pixel do VGA 640×480.
@@ -33,6 +34,9 @@ Todo instrumento segue o mesmo caminho, em três etapas:
 .
 ├── build.tcl ← gera o bitstream pelo terminal (sem abrir o Vivado)
 ├── program.tcl ← grava o bitstream na placa pelo terminal
+├── ip/
+│   └── xadc_wiz_0/
+│       └── xadc_wiz_0.xci ← XADC Wizard (lê o joystick), importado pelo build.tcl
 ├── top/
 │   └── hudTop.sv ← módulo de cima: liga tudo e escolhe a cor
 ├── vga/
@@ -42,13 +46,18 @@ Todo instrumento segue o mesmo caminho, em três etapas:
 │   ├── horizonGen.sv
 │   ├── compassGen.sv
 │   ├── altGen.sv
-│   └── reticleGen.sv
+│   ├── reticleGen.sv
+│   └── targetGen.sv ← desenha a mira (quadrado; muda ao travar)
 ├── sensors/
 │   ├── SPI/ ← acelerômetro
 │   │   ├── spiMaster.sv ← envia/recebe 1 byte por SPI
 │   │   ├── adxl362Ctrl.sv ← inicia e lê o ADXL362 (100 leituras/s)
 │   │   ├── accelToHorizon.sv ← aceleração → inclinação do horizonte
 │   │   └── accelToCompass.sv ← empurrões → ângulo da bússola
+│   ├── XADC/ ← joystick analógico
+│   │   ├── xadcReader.sv ← lê os eixos X e Y pelo XADC (12 bits, suavizado)
+│   │   ├── xadcToJoy.sv ← 0..4095 → 0..1023, calibra o centro, gera o pulso de leitura
+│   │   └── joyToTarget.sv ← joystick → posição da mira, zona morta e trava
 │   └── I2C/ ← barômetro
 │       ├── i2c_pkg.sv ← constantes do protocolo
 │       ├── i2c_master.sv ← envia/recebe bytes por I2C
@@ -74,6 +83,8 @@ Todo instrumento segue o mesmo caminho, em três etapas:
 | `SW0` | J15 | **1** = horizonte segue o acelerômetro · **0** = horizonte fixo |
 | `SW1` | L16 | **1** = bússola segue os empurrões · **0** = bússola desligada (ângulo em 0) |
 | `SW2` | M13 | **1** = altitude segue o barômetro · **0** = escala parada |
+| `SW3` | R15 | **1** = mira aparece e segue o joystick · **0** = mira escondida |
+| `SW14` | U11 | **Declutter:** **1** = só o retículo central e a linha do horizonte · **0** = tudo aparece |
 | `BTNC` | N17 | Reset |
 
 ### LEDs
@@ -82,6 +93,7 @@ Todo instrumento segue o mesmo caminho, em três etapas:
 |---|---|
 | `LED0` | Acelerômetro respondendo |
 | `LED1` | Barômetro respondendo, sem erro |
+| `LED2` | Mira travada |
 
 ### Esquema de ligação
 
@@ -92,7 +104,7 @@ Todo instrumento segue o mesmo caminho, em três etapas:
 - **Monitor:** cabo VGA na saída da placa.
 - **Barômetro BMP085:** cinco fios no **Pmod JA** (pino 1 `SDA`, 2 `SCL`, 3 `XCLR`, 5 GND, 6 3,3 V). O módulo precisa ser de **3,3 V**.
 - **Acelerômetro ADXL362:** já vem soldado na placa, não precisa ligar nada.
-- **Joystick:** analógico, ligado no conector **JXADC** e no **Pmod JB** (veja a seção abaixo).
+- **Joystick:** analógico, ligado no conector **JXADC** (eixos, passando pelos divisores de tensão da protoboard) e no **Pmod JB** pino 1 (botão de trava). Veja a seção "Joystick" abaixo.
 
 ---
 
@@ -100,7 +112,7 @@ Todo instrumento segue o mesmo caminho, em três etapas:
 
 O joystick do projeto é um módulo **analógico** (tipo KY-023 / HW-504), com 5 pinos: `GND`, `+5V`, `VRx`, `VRy` e `SW`. Ele não é SPI nem I2C. Cada eixo (`VRx` e `VRy`) é um potenciômetro que entrega uma **tensão**, e o `SW` é o botão de apertar.
 
-> **Status:** a ligação de hardware está definida (abaixo). A leitura dentro da FPGA ainda será implementada, veja os próximos passos.
+> **Status:** a ligação de hardware e o código de leitura (`xadcReader`, `xadcToJoy`, `joyToTarget`, `targetGen`) estão escritos e integrados ao `hudTop`. O projeto compila, mas o joystick ainda não foi testado na placa.
 
 ### Por que não liga direto na FPGA
 
@@ -162,7 +174,7 @@ A montagem na protoboard é esta:
 | Joystick `SW` | **Direto** na FPGA: Pmod JB pino 1 (`D14`), sem passar pela protoboard |
 
 - Os pinos do JXADC são numerados de 1 a 12. Os pinos 1 e 7 ficam lado a lado, na ponta oposta aos pinos de GND (5 e 11) e 3V3 (6 e 12).
-- O `SW` fica em **1** solto e em **0** apertado, usando o pull-up interno da FPGA. Será o gatilho do lock da mira.
+- O `SW` fica em **1** solto e em **0** apertado, usando o pull-up interno da FPGA. É o botão que trava a mira: um aperto trava, outro destrava.
 
 
 ## Gerando o bitstream sem abrir o Vivado
@@ -243,19 +255,34 @@ Parâmetros de ajuste: `INVERT`, `PX_PER_METER`, `FILT_SHIFT`, `ALT_LIMIT`, `SET
 > O sensor é sensível a calor e a escala (pixels por metro) pode precisar de ajuste na bancada.
 </details>
 
+<details>
+<summary><b>Mira e trava</b></summary>
+
+Cadeia: joystick → `xadcReader` → `xadcToJoy` → `joyToTarget` → `targetGen`.
+
+`xadcReader` lê os dois eixos pelo XADC (clock de 100 MHz). `xadcToJoy` calibra o centro nos primeiros ~1,2 s depois do reset (**não mexa no joystick nesse tempo**) e converte para 0..1023 com o centro em 512. `joyToTarget` aplica a zona morta, converte para pixels e liga/desliga a trava a cada aperto do botão do joystick (travada, a mira fica parada onde está). `targetGen` desenha o quadrado da mira. `SW3` mostra ou esconde a mira e o `LED2` acende quando ela está travada.
+
+Parâmetros de ajuste: `GAIN_NUM` (no `xadcToJoy`), `SWAP_XY`, `INVERT_H`, `INVERT_V`, `DEADZONE`, `MARGIN`, `LOCK_TOGGLE` (1 = cada aperto liga/desliga a trava, 0 = trava só enquanto o botão estiver apertado), `BTN_LOCKOUT_READS` (no `joyToTarget`).
+</details>
+
+<details>
+<summary><b>Modo declutter</b></summary>
+
+Com `SW14 = 1`, só o retículo central e a linha do horizonte são desenhados. Altitude, bússola e mira ficam escondidas (os cálculos continuam rodando, só o desenho some).
+</details>
+
 ---
 
 ## Próximos passos
 
-- Controle da **mira / alvo** por joystick, com travamento (lock).
-  A ligação com divisor de tensão e **XADC** já está definida acima. Falta escrever o módulo de leitura do XADC e o módulo que desenha e trava a mira.
+- **Testar o joystick na placa**, ajustando `SWAP_XY`, `INVERT_H`, `INVERT_V` e `GAIN_NUM` conforme a mira se comportar.
 - Fazer o vídeo aparecer atrás dos retículos.
 
 ---
 
 ## Tecnologias
 
-SystemVerilog · Vivado · Nexys A7-100T (Artix-7) · SPI · I2C · VGA 640×480 · TCL
+SystemVerilog · Vivado · Nexys A7-100T (Artix-7) · SPI · I2C · XADC · VGA 640×480 · TCL
 
 ---
 

@@ -274,8 +274,6 @@ Com `SW14 = 1`, só o retículo central e a linha do horizonte são desenhados. 
 ---
 
 ## Próximos passos
-
-- **Testar o joystick na placa**, ajustando `SWAP_XY`, `INVERT_H`, `INVERT_V` e `GAIN_NUM` conforme a mira se comportar.
 - Fazer o vídeo aparecer atrás dos retículos.
 
 ---

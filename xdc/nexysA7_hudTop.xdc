@@ -6,9 +6,9 @@ create_generated_clock -name clk25 -source [get_ports clock] -divide_by 4 [get_p
 
 ##Switches
 set_property -dict { PACKAGE_PIN J15   IOSTANDARD LVCMOS33 } [get_ports { SW0 }]; #Sch=sw[0] - 1 = horizonte pelo acelerometro
-set_property -dict { PACKAGE_PIN L16   IOSTANDARD LVCMOS33 } [get_ports { SW1 }]; #Sch=sw[1]
+set_property -dict { PACKAGE_PIN L16   IOSTANDARD LVCMOS33 } [get_ports { SW1 }]; #Sch=sw[1] - 1 = ativa a busula
 set_property -dict { PACKAGE_PIN M13   IOSTANDARD LVCMOS33 } [get_ports { SW2 }]; #Sch=sw[2] - 1 = altitude pelo barometro
-#set_property -dict { PACKAGE_PIN R15   IOSTANDARD LVCMOS33 } [get_ports { SW[3] }]; #Sch=sw[3]
+set_property -dict { PACKAGE_PIN R15   IOSTANDARD LVCMOS33 } [get_ports { SW3 }]; #Sch=sw[3] - 1 = mira (joystick) visivel
 #set_property -dict { PACKAGE_PIN R17   IOSTANDARD LVCMOS33 } [get_ports { SW[4] }]; #Sch=sw[4]
 #set_property -dict { PACKAGE_PIN T18   IOSTANDARD LVCMOS33 } [get_ports { SW[5] }]; #Sch=sw[5]
 #set_property -dict { PACKAGE_PIN U18   IOSTANDARD LVCMOS33 } [get_ports { SW[6] }]; #Sch=sw[6]
@@ -25,7 +25,7 @@ set_property -dict { PACKAGE_PIN M13   IOSTANDARD LVCMOS33 } [get_ports { SW2 }]
 ## LEDs
 set_property -dict { PACKAGE_PIN H17   IOSTANDARD LVCMOS33 } [get_ports { LED0 }]; #Sch=led[0] - acelerometro OK
 set_property -dict { PACKAGE_PIN K15   IOSTANDARD LVCMOS33 } [get_ports { LED1 }]; #Sch=led[1] - barometro OK
-#set_property -dict { PACKAGE_PIN J13   IOSTANDARD LVCMOS33 } [get_ports { LED[2] }]; #Sch=led[2]
+set_property -dict { PACKAGE_PIN J13   IOSTANDARD LVCMOS33 } [get_ports { LED2 }]; #Sch=led[2] - mira travada
 #set_property -dict { PACKAGE_PIN N14   IOSTANDARD LVCMOS33 } [get_ports { LED[3] }]; #Sch=led[3]
 
 ##Accelerometer (ADXL362)
@@ -38,6 +38,15 @@ set_property -dict { PACKAGE_PIN D15   IOSTANDARD LVCMOS33 } [get_ports { ACL_CS
 set_property -dict { PACKAGE_PIN C17   IOSTANDARD LVCMOS33 PULLUP true } [get_ports { BARO_SDA }]; #Sch=ja[1]
 set_property -dict { PACKAGE_PIN D18   IOSTANDARD LVCMOS33 PULLUP true } [get_ports { BARO_SCL }]; #Sch=ja[2]
 set_property -dict { PACKAGE_PIN E18   IOSTANDARD LVCMOS33 } [get_ports { BARO_XCLR }]; #Sch=ja[3]
+
+##Joystick analogico no JXADC: X = AD3 (pinos 1 e 7), Y = AD10 (pinos 2 e 8). O divisor de tensao fica na protoboard.
+set_property -dict { PACKAGE_PIN A13   IOSTANDARD LVCMOS33 } [get_ports { vauxp3 }];  #Sch=xa_p[1] - JXADC pino 1 (VRx)
+set_property -dict { PACKAGE_PIN A14   IOSTANDARD LVCMOS33 } [get_ports { vauxn3 }];  #Sch=xa_n[1] - JXADC pino 7 (GND)
+set_property -dict { PACKAGE_PIN A15   IOSTANDARD LVCMOS33 } [get_ports { vauxp10 }]; #Sch=xa_p[2] - JXADC pino 2 (VRy)
+set_property -dict { PACKAGE_PIN A16   IOSTANDARD LVCMOS33 } [get_ports { vauxn10 }]; #Sch=xa_n[2] - JXADC pino 8 (GND)
+
+##Botao do joystick (trava da mira) no Pmod JB pino 1. Pull-up interno: 1 = solto, 0 = apertado.
+set_property -dict { PACKAGE_PIN D14   IOSTANDARD LVCMOS33 PULLUP true } [get_ports { JOY_SW }]; #Sch=jb[1]
 
 ##Buttons
 set_property -dict { PACKAGE_PIN N17   IOSTANDARD LVCMOS33 } [get_ports { reset }]; #Sch=btnc

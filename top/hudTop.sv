@@ -8,6 +8,16 @@ module hudTop (
     input logic SW1,
     // Switch da altitude: SW[2] = 1 -> a escala de altitude segue o barômetro / SW[2] = 0 -> escala parada
     input logic SW2,
+    // Switch da mira: SW[3] = 1 -> a mira aparece e segue o joystick / SW[3] = 0 -> mira escondida
+    input logic SW3,
+
+    // Joystick analógico no conector JXADC (o divisor de tensão fica na protoboard)
+    input logic vauxp3,   // JXADC pino 1: eixo X (VRx)
+    input logic vauxn3,   // JXADC pino 7: GND do eixo X
+    input logic vauxp10,  // JXADC pino 2: eixo Y (VRy)
+    input logic vauxn10,  // JXADC pino 8: GND do eixo Y
+    // Botão do joystick (trava da mira), Pmod JB pino 1. Solto = 1, apertado = 0.
+    input logic JOY_SW,
 
     // Acelerômetro ADXL362 (SPI)
     input logic ACL_MISO,
@@ -24,6 +34,8 @@ module hudTop (
     output logic LED0,
     // LED[1] aceso = barômetro respondeu e está sem erro
     output logic LED1,
+    // LED[2] aceso = mira travada
+    output logic LED2,
 
     output logic VGAHS,
     output logic VGAVS,
@@ -222,6 +234,83 @@ barToAlt #(
     .altOffset(baroAltOffset)
 );
 
+// ---------- Joystick analógico (XADC) e mira ----------
+// Cadeia: joystick --> xadcReader --> xadcToJoy --> joyToTarget --> targetGen
+// O xadcReader usa o clock de 100 MHz (é o clock do XADC); o resto usa o clk25.
+logic [11:0] xadcX, xadcY;
+
+xadcReader xadcReader (
+    .clk100(clock),
+    .vauxp3(vauxp3),
+    .vauxn3(vauxn3),
+    .vauxp10(vauxp10),
+    .vauxn10(vauxn10),
+    .xVal(xadcX),
+    .yVal(xadcY)
+);
+
+// Converte 0..4095 (centro ~1690) em 0..1023 (centro 512). NÃO MEXA NO JOYSTICK por ~1 s depois do reset: é quando ele calibra o centro.
+logic [9:0] joyX, joyY;
+logic joyValid, joyCalibrated;
+
+xadcToJoy xadcToJoy (
+    .clk(clk25),
+    .rst_n(rstN),
+    .xRaw(xadcX),
+    .yRaw(xadcY),
+    .joyX(joyX),
+    .joyY(joyY),
+    .joyValid(joyValid),
+    .calibrated(joyCalibrated)
+);
+
+// Botão do joystick: com pull-up vale 1 solto e 0 apertado. Passa por 2 flip-flops e é invertido (o joyToTarget quer 1 = apertado).
+logic [1:0] joySwSync;
+logic joyBtnTrigger;
+
+always_ff @(posedge clk25 or negedge rstN) begin
+    if(!rstN) joySwSync <= 2'b11;
+    else joySwSync <= {joySwSync[0], JOY_SW};
+end
+
+assign joyBtnTrigger = ~joySwSync[1];
+
+logic [9:0] targetX, targetY;
+logic targetLocked;
+
+// Ajuste SWAP_XY / INVERT_H / INVERT_V depois de testar mexendo o joystick
+joyToTarget #(
+    .SWAP_XY (1'b0),
+    .INVERT_H(1'b0),
+    .INVERT_V(1'b0)
+) joyToTarget (
+    .clk(clk25),
+    .rst_n(rstN),
+    .joyX(joyX),
+    .joyY(joyY),
+    .btnTrigger(joyBtnTrigger),
+    .joyValid(joyValid),
+    .targetX(targetX),
+    .targetY(targetY),
+    .targetLocked(targetLocked)
+);
+
+assign LED2 = targetLocked;
+
+logic drawTarget;
+
+targetGen targetGen (
+    .clk(clk25),
+    .rstN(rstN),
+    .x(x),
+    .y(y),
+    .targetX(targetX),
+    .targetY(targetY),
+    .targetLocked(targetLocked),
+    .validPixel(validPixel),
+    .drawTarget(drawTarget)
+);
+
 logic drawReticle;
 logic drawHorizon;
 
@@ -265,7 +354,8 @@ parameter [3:0] BGB = 4'h9;
 
 always_comb begin
     if(validPixel) begin
-        if(drawReticle || drawHorizon || drawAlt || drawCompass) begin
+        // SW3 vem de um switch (assíncrono): só liga/desliga o desenho da mira, no máximo 1 quadro errado.
+        if(drawReticle || drawHorizon || drawAlt || drawCompass || (SW3 && drawTarget)) begin
             VGAR = 4'h0;
             VGAG = 4'hF;
             VGAB = 4'h0;

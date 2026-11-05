@@ -183,7 +183,7 @@ Os dois scripts seguem o roteiro dos slides da disciplina (síntese em TCL).
 
 ### Requisitos
 
-- **Vivado** instalado (testado na 2026.1). A FPGA do projeto é a `xc7a100tcsg324-1`.
+- **Vivado** instalado (testado na 2024.2). A FPGA do projeto é a `xc7a100tcsg324-1`.
 - Para gravar: placa ligada no USB (porta PROG/UART) e chave de energia ligada.
 
 ### 1) Gerar o `hudTop.bit` — `build.tcl`
@@ -274,8 +274,6 @@ Com `SW14 = 1`, só o retículo central e a linha do horizonte são desenhados. 
 ---
 
 ## Próximos passos
-
-- **Testar o joystick na placa**, ajustando `SWAP_XY`, `INVERT_H`, `INVERT_V` e `GAIN_NUM` conforme a mira se comportar.
 - Fazer o vídeo aparecer atrás dos retículos.
 
 ---

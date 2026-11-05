@@ -47,9 +47,9 @@ always_comb begin
 end
 
 always_ff @(posedge clk100) begin
-    if (drdy) begin
+    if(drdy) begin
         case (chanQ)
-            5'h13:   xVal <= xVal + 12'(dx >>> 2); // VAUX3  = eixo X
+            5'h13:   xVal <= xVal + 12'(dx >>> 2); // VAUX3 = eixo X
             5'h1A:   yVal <= yVal + 12'(dy >>> 2); // VAUX10 = eixo Y
             default: ;
         endcase

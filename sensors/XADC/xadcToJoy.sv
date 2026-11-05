@@ -16,7 +16,6 @@
 
 module xadcToJoy #(
     // Ganho = GAIN_NUM / 16. Com 5, o ganho é 0,3125: o joystick todo para um lado (~1690 de diferença) vira ~528, e o limite corta em 511.
-    // A mira não chega na borda da tela? Aumente (6, 7...). Chega antes do fim do curso? Diminua.
     parameter int GAIN_NUM = 5,
 
     parameter int SETTLE_READS = 50, // leituras ignoradas antes de calibrar (50 x 10 ms = 0,5 s)
@@ -117,7 +116,7 @@ end
 assign calibrated = (state == RUN);
 
 // PASSO 3 - CONVERTER
-logic signed [13:0] diffX, diffY;
+logic signed [13:0] diffX, diffY; // distancias do  centro
 logic signed [31:0] valX, valY;
 
 always_comb begin

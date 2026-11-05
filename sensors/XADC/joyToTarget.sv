@@ -2,20 +2,11 @@
 
 // O QUE ESTE MÓDULO FAZ
 //  Pega a posição do joystick (joyX, joyY: números de 0 a 1023) e transforma na posição da MIRA na tela (targetX, targetY: pixels).
-//  Também trava a mira: apertou o gatilho, a mira para onde está. Apertou de novo, destrava.
-//  Ele NÃO desenha nada. O desenho da mira é feito pelo targetGen. É o equivalente do accelToHorizon / accelToCompass para o joystick.
+//  Também trava a mira: apertou o gatilho, a mira para onde está. Apertou de novo, destrava. (***)
 //    Joystick no centro        -> mira no meio da tela
 //    Joystick todo à direita   -> mira perto da borda direita
 //    Joystick todo para cima   -> mira perto da borda de cima
 //  A mira SEGUE a posição do joystick. Soltou o joystick (volta ao centro) = a mira volta ao meio, A NÃO SER que esteja travada.
-
-// DE ONDE VÊM OS DADOS
-//  jstk2Ctrl.joyX       -> joyX
-//  jstk2Ctrl.joyY       -> joyY
-//  jstk2Ctrl.btnTrigger -> btnTrigger
-//  jstk2Ctrl.dataValid  -> joyValid
-//  O jstk2Ctrl lê o joystick 100 vezes por segundo. Cada vez que chega uma leitura nova, ele dá UM pulso de 1 ciclo em dataValid.
-//  Daqui para baixo, "1 leitura" = 10 ms.
 
 // COMO FUNCIONA (4 passos)
 //  1) ESCOLHER o eixo: qual eixo do joystick vira esquerda/direita e qual vira cima/baixo (e se inverte). Depende de como o JSTK2 está encaixado.
@@ -29,7 +20,7 @@ module joyToTarget #(
     parameter bit INVERT_H = 1'b0, // 1 = troca esquerda e direita
     parameter bit INVERT_V = 1'b0, // 1 = troca cima e baixo
 
-    parameter int DEADZONE = 12, // zona morta: até 12 de distância do centro (512), a leitura vale 512. Mira treme parada? Aumente.
+    parameter int DEADZONE = 12, // zona morta: até 12 de distância do centro (512), a leitura vale 512.
 
     parameter int MARGIN = 20, // distância mínima da mira até a borda da tela, em pixels (o desenho da mira precisa de espaço)
 
@@ -89,7 +80,7 @@ always_comb begin
     mulH = 20'(centerH) * 20'(H_LAST + 1);
     mulV = 20'(centerV) * 20'(V_LAST + 1);
     posH = mulH[19:10];
-    posV = 10'(V_LAST + 1) - mulV[19:10];
+    posV = 10'(V_LAST + 1) - mulV[19:10]; // como aumenta pra baixo, precisa da altura pra subtrair
 
     // LIMITE: a mira fica entre MARGIN e (último pixel - MARGIN)
     if(posH < 10'(MARGIN)) wantX = 10'(MARGIN);

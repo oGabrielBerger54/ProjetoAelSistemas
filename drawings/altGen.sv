@@ -11,12 +11,13 @@
 
 module altGen #(
     parameter int CY = 240, // altura do meio da tela (onde fica o ponteiro)
-    parameter int TAPE_X = 120, // posição horizontal da fita na tela
+    parameter int TAPE_X = 35, // posição horizontal da fita na tela
     parameter int TAPE_HALF_HEIGHT = 160, // a fita ocupa de CY-160 até CY+160
     parameter int POINTER_START = 4, // o ponteiro começa 4 pixels à direita da fita
     parameter int POINTER_LENGTH = 12, // comprimento do ponteiro (e metade da altura da base dele)
     parameter int H_LAST = 639, // último x visível
-    parameter int V_LAST = 479 // último y visível
+    parameter int V_LAST = 479, // último y visível
+    parameter bit MIRROR = 1'b0
 )(
     input logic clk,
     input logic rstN,
@@ -57,7 +58,8 @@ assign inInterval = (y >= CY - TAPE_HALF_HEIGHT) && (y <= CY + TAPE_HALF_HEIGHT)
 logic signed [11:0] signedY;
 logic signed [11:0] pointerDist;
 assign signedY = $signed({2'b00, y});
-assign pointerDist = $signed({2'b00, x}) - 12'(TAPE_X + POINTER_START);
+assign pointerDist = MIRROR ? 12'(TAPE_X + 1 - POINTER_START) - $signed({2'b00, x})
+                            : $signed({2'b00, x}) - 12'(TAPE_X + POINTER_START);
 
 logic drawTapeLine;
 logic drawTapeTicks;
@@ -68,7 +70,11 @@ always_comb begin
     drawTapeLine = (x == TAPE_X) || (x == TAPE_X + 1);
 
     // Risquinho grande: 16 pixels para a esquerda da fita. Pequeno: 8 pixels.
-    drawTapeTicks = (x <= TAPE_X) && ((isMajorTick && (x >= TAPE_X - 16)) || (isMinorTick && (x >= TAPE_X - 8)));
+        if(MIRROR) begin
+        drawTapeTicks = (x >= TAPE_X + 1) && ((isMajorTick && (x <= TAPE_X + 17)) || (isMinorTick && (x <= TAPE_X + 9)));
+    end else begin
+        drawTapeTicks = (x <= TAPE_X) && ((isMajorTick && (x >= TAPE_X - 16)) || (isMinorTick && (x >= TAPE_X - 8)));
+    end
 
     // Triângulo: em cada coluna, desenha de CY - pointerDist até CY + pointerDist
     drawTapePointer = (pointerDist >= 0) && (pointerDist <= POINTER_LENGTH)

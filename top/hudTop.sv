@@ -65,6 +65,7 @@ vgaTiming vgaTiming (
     .pxI(pxI)
 );
 
+// Gera as coordenadas x e y de acordo com a area visivel do monitor
 logic unsigned [9:0] x, y;
 logic validPixel;
 
@@ -102,6 +103,7 @@ assign LED0 = aclIdOk;
 logic signed [8:0] accelVerticalDelta;
 logic signed [9:0] accelHorizontalDelta;
 
+// Converte dados do acelerometro em inclinacao para a linha do horizonte
 // Ajuste SWAP_XY / INVERT_V / INVERT_H depois de testar inclinando a placa
 accelToHorizon #(
     .SWAP_XY (1'b1),
@@ -257,6 +259,17 @@ altGen altGen (
     .drawAlt(drawAlt)
 );
 
+logic drawAltR;
+
+altGen #(.TAPE_X(603)) altGenRight (
+    .clk(clk25),
+    .rstN(rstN),
+    .x(x),
+    .y(y),
+    .altOffset(altOffset),
+    .validPixel(validPixel),
+    .drawAlt(drawAltR)
+);
 
 parameter [3:0] BGR = 4'h4;
 parameter [3:0] BGG = 4'h6;
@@ -264,7 +277,7 @@ parameter [3:0] BGB = 4'h9;
 
 always_comb begin
     if(validPixel) begin
-        if(drawReticle || drawHorizon || drawAlt || drawCompass) begin
+        if(drawReticle || drawHorizon || drawAlt || drawAltR || drawCompass) begin
             VGAR = 4'h0;
             VGAG = 4'hF;
             VGAB = 4'h0;

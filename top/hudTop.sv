@@ -320,7 +320,7 @@ logic targetLocked;
 joyToTarget #(
     .SWAP_XY (1'b0),
     .INVERT_H(1'b0),
-    .INVERT_V(1'b0)
+    .INVERT_V(1'b1)
 ) joyToTarget (
     .clk(clk25),
     .rst_n(rstN),

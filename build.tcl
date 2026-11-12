@@ -34,6 +34,7 @@ set srcFiles [concat \
     [glob -nocomplain sensors/SPI/*.sv] \
     [glob -nocomplain sensors/I2C/*.sv] \
     [glob -nocomplain sensors/XADC/*.sv] \
+    [glob -nocomplain video/*.sv] \
     [glob -nocomplain top/*.sv] ]
 
 foreach f $srcFiles {

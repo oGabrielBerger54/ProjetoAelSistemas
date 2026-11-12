@@ -63,6 +63,16 @@ Todo instrumento segue o mesmo caminho, em três etapas:
 │       ├── i2c_master.sv ← envia/recebe bytes por I2C
 │       ├── bmp085_reader.sv ← lê a pressão do BMP085
 │       └── barToAlt.sv ← pressão → deslocamento da fita de altitude
+├── video/ ← vídeo de fundo lido do cartão microSD
+│   ├── sdSpiByte.sv ← envia/recebe 1 byte com o cartão (SPI, 390 kHz ou 12,5 MHz)
+│   ├── sdVideoReader.sv ← inicia o cartão, acha o VIDEO.BIN e lê os quadros em loop
+│   └── videoBackground.sv ← framebuffer duplo em BRAM, troca sem rasgar, amplia 2× para 640×480
+├── sim/ ← só para simulação (não entra no bitstream)
+│   ├── sdCardModel.sv ← cartão SD simulado
+│   ├── tbVideo.sv ← testbench do vídeo: confere pixel a pixel
+│   └── sim.tcl ← roda a simulação pelo terminal
+├── tools/
+│   └── gerar_video_retro.py ← gera o VIDEO.BIN (animação estilo videogame antigo)
 ├── xdc/
 │   └── nexysA7_hudTop.xdc ← qual sinal vai em qual pino da placa
 └── docs/
@@ -84,6 +94,7 @@ Todo instrumento segue o mesmo caminho, em três etapas:
 | `SW1` | L16 | **1** = bússola segue os empurrões · **0** = bússola desligada (ângulo em 0) |
 | `SW2` | M13 | **1** = altitude segue o barômetro · **0** = escala parada |
 | `SW3` | R15 | **1** = mira aparece e segue o joystick · **0** = mira escondida |
+| `SW4` | R17 | **1** = fundo com o vídeo do cartão microSD · **0** = fundo de cor fixa |
 | `SW14` | U11 | **Declutter:** **1** = só o retículo central e a linha do horizonte · **0** = tudo aparece |
 | `BTNC` | N17 | Reset |
 
@@ -94,6 +105,7 @@ Todo instrumento segue o mesmo caminho, em três etapas:
 | `LED0` | Acelerômetro respondendo |
 | `LED1` | Barômetro respondendo, sem erro |
 | `LED2` | Mira travada |
+| `LED3` | Vídeo: apagado = ligando o cartão · piscando devagar = procurando o vídeo · aceso = tocando · piscando rápido = erro (tenta de novo sozinho) |
 
 ### Esquema de ligação
 
@@ -104,6 +116,7 @@ Todo instrumento segue o mesmo caminho, em três etapas:
 - **Monitor:** cabo VGA na saída da placa.
 - **Barômetro BMP085:** cinco fios no **Pmod JA** (pino 1 `SDA`, 2 `SCL`, 3 `XCLR`, 5 GND, 6 3,3 V). O módulo precisa ser de **3,3 V**.
 - **Acelerômetro ADXL362:** já vem soldado na placa, não precisa ligar nada.
+- **Cartão microSD:** com o `VIDEO.BIN`, no slot embaixo da placa. Veja "Vídeo de fundo" abaixo.
 - **Joystick:** analógico, ligado no conector **JXADC** (eixos, passando pelos divisores de tensão da protoboard) e no **Pmod JB** pino 1 (botão de trava). Veja a seção "Joystick" abaixo.
 
 ---
@@ -271,16 +284,45 @@ Parâmetros de ajuste: `GAIN_NUM` (no `xadcToJoy`), `SWAP_XY`, `INVERT_H`, `INVE
 Com `SW14 = 1`, só o retículo central e a linha do horizonte são desenhados. Altitude, bússola e mira ficam escondidas (os cálculos continuam rodando, só o desenho some).
 </details>
 
+<details>
+<summary><b>Vídeo de fundo (cartão microSD)</b></summary>
+
+Cadeia: cartão → `sdSpiByte` → `sdVideoReader` → framebuffer (2 quadros em BRAM) → `videoBackground` → fundo do HUD.
+
+**Preparar o cartão (não precisa de administrador):**
+1. Gere o vídeo: `python3 tools/gerar_video_retro.py --cabecalho --saida VIDEO.BIN` (precisa de `numpy` e `pillow`; o `ffmpeg` é opcional, só para o `preview.mp4`).
+2. Formate o microSD em **FAT32** (no PC ou no celular, como "armazenamento portátil").
+3. Copie **só** o `VIDEO.BIN`, logo depois de formatar, e ejete com segurança. Não use o cartão para mais nada.
+
+**Como a placa acha o vídeo:** ela não lê o FAT. Num cartão recém-formatado o primeiro arquivo copiado fica em setores seguidos, então o `sdVideoReader` lê o cartão desde o setor 0 (leitura contínua, `CMD18`) até achar o setor que começa com `AEL_HUD_VIDEO_V1` (procura nos primeiros 128 MB, leva alguns segundos). Os quadros vêm logo depois: 320×240, 1 byte por pixel em RGB332 (`RRRGGGBB`), 150 setores cada. No último quadro ele manda `CMD12` e recomeça do primeiro.
+
+| Bytes do cabeçalho | Conteúdo |
+|---|---|
+| 0–15 | `AEL_HUD_VIDEO_V1` |
+| 16–31 | os mesmos bytes invertidos (evita achar a assinatura por acaso) |
+| 32–35 | largura e altura (320, 240), little-endian |
+| 36–39 | número de quadros, little-endian |
+| 42 | fps |
+
+**Na tela:** o quadro é ampliado 2× (cada pixel vira 2×2). Enquanto um quadro aparece, o próximo é escrito no outro buffer, e a troca só acontece no começo do apagamento vertical, então a imagem nunca rasga. A 15 fps cada quadro fica 4 quadros VGA na tela. O SPI a 12,5 MHz lê um quadro em ~55 ms: se o cartão demorar mais, o vídeo só fica mais lento.
+
+**Detalhes do slot da Nexys A7:** o slot só recebe energia com `SD_RESET = 0`. Enquanto o cartão está desligado, todas as linhas ficam em 0. Se der erro (sem cartão, cartão sem o vídeo), o leitor desliga o cartão, espera ~1 s e tenta de novo, então dá para colocar o cartão com a placa ligada.
+
+**Simulação:** `vivado -mode batch -source sim/sim.tcl` roda o `tbVideo`, que usa um cartão simulado (lixo nos primeiros setores, cabeçalho no setor 40 e 3 quadros de teste) e confere cada pixel que sai para o VGA, incluindo a volta do loop. No fim aparece `PASSOU` ou `FALHOU`.
+
+Parâmetros de ajuste: `SEARCH_LIMIT` (no `sdVideoReader`, quantos setores procurar), `SLOW_HALF` (no `sdSpiByte`, velocidade da inicialização).
+</details>
+
 ---
 
 ## Próximos passos
-- Fazer o vídeo aparecer atrás dos retículos.
+- Testar o vídeo do cartão na placa (rodar antes a simulação `sim/sim.tcl`).
 
 ---
 
 ## Tecnologias
 
-SystemVerilog · Vivado · Nexys A7-100T (Artix-7) · SPI · I2C · XADC · VGA 640×480 · TCL
+SystemVerilog · Vivado · Nexys A7-100T (Artix-7) · SPI · I2C · XADC · microSD (SPI) · VGA 640×480 · TCL
 
 ---
 

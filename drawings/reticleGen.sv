@@ -2,9 +2,9 @@
 module reticleGen #(
     parameter CX = 320,
     parameter CY = 240,
-    parameter RADIUS = 60,
+    parameter RADIUS = 55,
     parameter CIRCLE_WIDTH = 1,
-    parameter CROSS_WIDTH = 1,
+    parameter CROSS_WIDTH = 2,
     parameter HALF_CROSS_HEIGHT = 5
 )(
     input  logic unsigned [9:0] x,
@@ -36,8 +36,8 @@ always_comb begin
                 (x >= CX - HALF_CROSS_HEIGHT) && (x <= CX + HALF_CROSS_HEIGHT)) ||
                 ((x == CX) && (y >= CY - HALF_CROSS_HEIGHT) && (y <= CY + HALF_CROSS_HEIGHT));
 
-    // Assumindo um raio de 60 pixels, engrossando um pouco
-    drawCircle = (distSquared + major >= RADIUS*RADIUS) && (distSquared < RADIUS*RADIUS + major);
+    // Desenha circulo
+    drawCircle = ((distSquared + major >= RADIUS*RADIUS) && (distSquared < (RADIUS+CIRCLE_WIDTH)*(RADIUS+CIRCLE_WIDTH) + major));
     // Desenhando os pontos cardeais, assumindo uma distância de 85 a 100 pixels do centro
     drawCardinals = (
         ((posX == 0) && (((posY >= -RADIUS) && (posY <= -(RADIUS-HALF_CROSS_HEIGHT))) || ((posY >= RADIUS-HALF_CROSS_HEIGHT) && (posY <= RADIUS)))) ||

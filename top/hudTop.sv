@@ -261,7 +261,7 @@ altGen altGen (
 
 logic drawAltR;
 
-altGen #(.TAPE_X(603)) altGenRight (
+altGen #(.TAPE_X(603), .MIRROR(1)) altGenRight (
     .clk(clk25),
     .rstN(rstN),
     .x(x),

@@ -158,7 +158,7 @@ always_ff @(posedge clk or negedge rst_n) begin
                 end
             end
 
-            // Dura 1 ciclo. spiStart sobe e, no ciclo seguinte, o "zero padrão" o derruba: é o pulso que o spiMaster precisa. Neste momento
+            // Dura 1 ciclo. spiStart sobe e, no ciclo seguinte, o "zero padrão" o derruba: é o pulso que o spiMaster precisa.
             S_BYTE_START: begin
                 spiStart <= 1'b1;
                 state <= S_BYTE_WAIT;

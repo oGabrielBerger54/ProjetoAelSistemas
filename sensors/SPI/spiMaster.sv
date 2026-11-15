@@ -22,11 +22,11 @@ localparam int HALF = (HALF_RAW < 4) ? 4 : HALF_RAW;
 localparam int DIV_W = $clog2(HALF);
 
 
-// Estados do SPI: Parado, SCLK baixo & SLCK alto
+// Estados do SPI: Parado, SCLK baixo & SCLK alto
 typedef enum logic [1:0] {IDLE, PHASE_LOW, PHASE_HIGH} state_t;
 state_t state;
 
-// Contador de ciclos dentro do meio período do clk, comecando em Zero.
+// Contador de ciclos dentro do meio período do SCLK, comecando em Zero.
 logic [DIV_W-1:0] divCnt;
 
 // Qual dos oito bits do byte está sendo transmitido/recebido
@@ -41,7 +41,6 @@ logic [7:0] rxShift;
 // Nivel logico alto quando o meio periodo acabou
 logic halfDone;
 
-// Sinais de fora da FPGA, que 
 logic misoMeta, misoSync;
 always_ff @(posedge clk or negedge rst_n) begin
     if(!rst_n) begin

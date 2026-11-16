@@ -4,10 +4,6 @@ module altGen #(
     parameter int TAPE_HALF_HEIGHT = 200, // a fita ocupa de CY-160 até CY+160
     parameter int POINTER_START = 4, // o ponteiro começa 4 pixels à direita da fita
     parameter int POINTER_LENGTH = 12, // comprimento do ponteiro (e metade da altura da base dele)
-    parameter int ZERO_TICK_LEN = 44, // a marca do zero é um risco grosso de 44 pixels para a esquerda da fita (os risquinhos grandes têm só 16)
-    parameter int ZERO_BOX_LEFT = 62, // a "caixa do zero" (um 0 desenhado como retângulo) começa 62 pixels à esquerda da fita...
-    parameter int ZERO_BOX_RIGHT = 50, // ...e termina 50 pixels à esquerda da fita (13 pixels de largura)
-    parameter int ZERO_BOX_HALF = 7, // metade da altura da caixa do zero
     parameter int H_LAST = 639, // último x visível
     parameter int V_LAST = 479, // último y visível
     parameter bit MIRROR = 1'b0, // 1 = espelhado: risquinhos para a direita e ponteiro para a esquerda
@@ -49,13 +45,6 @@ logic isMajorTick;
 logic isMinorTick;
 assign isMajorTick = (aLevel[4:0] == 5'd0); // múltiplo de 32
 assign isMinorTick = (aLevel[3:0] == 4'd0); // múltiplo de 16
-
-// ---------- Marca do zero ----------
-// O "zero" da altura é o nível tapeLevel == CY: com altOffset = 0 ele cai exatamente na linha do ponteiro.
-// zeroDist = quantas linhas a linha atual está do zero (0 = é a linha do zero; negativo = acima; positivo = abaixo).
-// A conta "dá a volta" em 12 bits, então vale também para tapeLevel negativo.
-logic signed [11:0] zeroDist;
-assign zeroDist = $signed(tapeLevel - 12'(CY));
 
 // ---------- Posição vertical: a fita só existe perto do meio da tela ----------
 logic inInterval;

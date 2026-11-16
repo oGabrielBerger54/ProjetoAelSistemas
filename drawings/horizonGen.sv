@@ -95,7 +95,7 @@ always_comb begin
                         (signedY >= horizonY - STEP_HEIGHT);
                         
     drawOuterLine     = (absDistX >= GAP + INNER_LINE_LENGTH + STEP_WIDTH) && 
-                        (absDistX <= 250) &&
+                        (absDistX <= 240) &&
                         matchBaseY;
 
     if(validPixel) begin

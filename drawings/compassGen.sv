@@ -194,7 +194,7 @@ generate
                          (bx + (LABEL_DIGITS - nDig(int'(val))) * 6 * LABEL_SCALE >= 0) &&
                          (bx + LABEL_DIGITS * 6 * LABEL_SCALE - LABEL_SCALE <= H_LAST + 1);
 
-        numberGen #(.X0(0), .Y0(0), .NDIGITS(LABEL_DIGITS), .SCALE(LABEL_SCALE), .HIDE_ZEROS(1'b1)) u_num (
+        numberGen #(.X0(0), .Y0(0), .NDIGITS(LABEL_DIGITS), .SCALE(LABEL_SCALE)) u_num (
             .x(10'(dxs)), .y(10'(dys)), .validPixel(validPixel & labelOk),
             .value(val), .drawNumber(drawLab[i])
         );

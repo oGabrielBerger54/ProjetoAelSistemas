@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1250 600" width="1250" height="600" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/></marker></defs>
+<rect width="1250" height="600" fill="#ffffff"/>
+<text x="625" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#1b1f24" >Caminho do vídeo: do cartão ao fundo do HUD</text>
+<text x="625" y="56" text-anchor="middle" font-size="13" font-weight="400" fill="#57606a" >O cartão escreve no buffer de trás enquanto o VGA mostra o da frente · a troca só acontece fora da imagem</text>
+<rect x="30" y="110" width="150" height="100" rx="10" fill="#e8f0fe" stroke="#1f6feb" stroke-width="2"/>
+<text x="105.0" y="138" text-anchor="middle" font-size="15" font-weight="700" fill="#1b1f24" >microSD</text>
+<text x="105.0" y="162" text-anchor="middle" font-size="11" font-weight="400" fill="#57606a" >cartão</text>
+<text x="105.0" y="180" text-anchor="middle" font-size="11" font-weight="400" fill="#57606a" >VIDEO.BIN</text>
+<rect x="200" y="110" width="150" height="100" rx="10" fill="#fff1e0" stroke="#e0720b" stroke-width="2"/>
+<text x="275.0" y="138" text-anchor="middle" font-size="15" font-weight="700" fill="#1b1f24" >sdSpiByte</text>
+<text x="275.0" y="162" text-anchor="middle" font-size="11" font-weight="400" fill="#57606a" >troca 1 byte</text>
+<text x="275.0" y="180" text-anchor="middle" font-size="11" font-weight="400" fill="#57606a" >bit a bit (SPI)</text>
+<rect x="370" y="110" width="180" height="100" rx="10" fill="#fff1e0" stroke="#e0720b" stroke-width="2"/>
+<text x="460.0" y="138" text-anchor="middle" font-size="15" font-weight="700" fill="#1b1f24" >sdVideoReader</text>
+<text x="460.0" y="162" text-anchor="middle" font-size="11" font-weight="400" fill="#57606a" >liga e inicia o cartão,</text>
+<text x="460.0" y="180" text-anchor="middle" font-size="11" font-weight="400" fill="#57606a" >acha o vídeo, lê quadros</text>
+<rect x="580" y="110" width="180" height="100" rx="10" fill="#e0f4f2" stroke="#0b7a75" stroke-width="2"/>
+<text x="670.0" y="138" text-anchor="middle" font-size="15" font-weight="700" fill="#1b1f24" >Framebuffer</text>
+<text x="670.0" y="162" text-anchor="middle" font-size="11" font-weight="400" fill="#57606a" >2 quadros em BRAM</text>
+<text x="670.0" y="180" text-anchor="middle" font-size="11" font-weight="400" fill="#57606a" >(38 blocos de RAM)</text>
+<rect x="790" y="110" width="180" height="100" rx="10" fill="#fff8e1" stroke="#b28704" stroke-width="2"/>
+<text x="880.0" y="138" text-anchor="middle" font-size="15" font-weight="700" fill="#1b1f24" >videoBackground</text>
+<text x="880.0" y="162" text-anchor="middle" font-size="11" font-weight="400" fill="#57606a" >amplia 2× (640×480)</text>
+<text x="880.0" y="180" text-anchor="middle" font-size="11" font-weight="400" fill="#57606a" >e troca os buffers</text>
+<rect x="1010" y="110" width="200" height="100" rx="10" fill="#eef9ef" stroke="#2e8b3a" stroke-width="2"/>
+<text x="1110.0" y="138" text-anchor="middle" font-size="15" font-weight="700" fill="#1b1f24" >hudTop</text>
+<text x="1110.0" y="162" text-anchor="middle" font-size="11" font-weight="400" fill="#57606a" >SW4 = 1 → cor do vídeo</text>
+<text x="1110.0" y="180" text-anchor="middle" font-size="11" font-weight="400" fill="#57606a" >desenhos verdes por cima</text>
+<line x1="180" y1="160" x2="198" y2="160" stroke="#57606a" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="350" y1="160" x2="368" y2="160" stroke="#57606a" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="550" y1="160" x2="578" y2="160" stroke="#57606a" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="760" y1="160" x2="788" y2="160" stroke="#57606a" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="970" y1="160" x2="1008" y2="160" stroke="#57606a" stroke-width="2" marker-end="url(#ar)"/>
+<text x="1110" y="240" text-anchor="middle" font-size="13" font-weight="700" fill="#1b1f24" >VGA 640×480</text>
+<line x1="1110" y1="212" x2="1110" y2="226" stroke="#57606a" stroke-width="2" marker-end="url(#ar)"/>
+<text x="40" y="280" text-anchor="start" font-size="12" font-weight="700" fill="#57606a" letter-spacing="1">FRAMEBUFFER COM DOIS QUADROS (76 800 bytes cada)</text>
+<line x1="40" y1="288" x2="1210" y2="288" stroke="#d0d7de" stroke-width="2"/>
+<rect x="60" y="310" width="330" height="70" rx="10" fill="#e0f4f2" stroke="#0b7a75" stroke-width="2.5"/>
+<text x="225" y="338" text-anchor="middle" font-size="14" font-weight="700" fill="#0b7a75" >Buffer A</text>
+<text x="225" y="360" text-anchor="middle" font-size="11" font-weight="400" fill="#57606a" >o leitor escreve o próximo quadro aqui</text>
+<rect x="60" y="400" width="330" height="70" rx="10" fill="#e8f0fe" stroke="#1f6feb" stroke-width="2.5"/>
+<text x="225" y="428" text-anchor="middle" font-size="14" font-weight="700" fill="#0d47a1" >Buffer B</text>
+<text x="225" y="450" text-anchor="middle" font-size="11" font-weight="400" fill="#57606a" >está na tela agora (ampliado 2×)</text>
+<line x1="400" y1="345" x2="520" y2="415" stroke="#57606a" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="400" y1="435" x2="520" y2="365" stroke="#57606a" stroke-width="2" marker-end="url(#ar)"/>
+<text x="460" y="392" text-anchor="middle" font-size="12" font-weight="700" fill="#1b1f24" >troca</text>
+<rect x="540" y="310" width="330" height="160" rx="10" fill="#fff8e1" stroke="#b28704" stroke-width="2"/>
+<text x="705" y="336" text-anchor="middle" font-size="14" font-weight="700" fill="#5d4500" >Quando troca?</text>
+<text x="705" y="362" text-anchor="middle" font-size="12" font-weight="400" fill="#1b1f24" >só no começo do apagamento vertical (linha 480)</text>
+<text x="705" y="384" text-anchor="middle" font-size="12" font-weight="400" fill="#1b1f24" >e só se o quadro novo já está inteiro</text>
+<text x="705" y="406" text-anchor="middle" font-size="12" font-weight="400" fill="#1b1f24" >e se já passaram 60 ÷ fps quadros VGA</text>
+<text x="705" y="428" text-anchor="middle" font-size="12" font-weight="400" fill="#1b1f24" >(15 fps → cada quadro fica 4 quadros VGA)</text>
+<rect x="890" y="310" width="320" height="160" rx="10" fill="#eef9ef" stroke="#2e8b3a" stroke-width="2"/>
+<text x="1050" y="336" text-anchor="middle" font-size="14" font-weight="700" fill="#1b5e20" >Resultado</text>
+<text x="1050" y="362" text-anchor="middle" font-size="12" font-weight="400" fill="#1b1f24" >a imagem nunca aparece rasgada</text>
+<text x="1050" y="384" text-anchor="middle" font-size="12" font-weight="400" fill="#1b1f24" >se o cartão demorar, o vídeo só fica mais lento</text>
+<text x="1050" y="406" text-anchor="middle" font-size="12" font-weight="400" fill="#1b1f24" >se der erro, volta ao fundo de cor fixa</text>
+<rect x="60" y="500" width="1150" height="70" rx="8" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1.5"/>
+<text x="635" y="524" text-anchor="middle" font-size="13" font-weight="700" fill="#1b1f24" >Estados do sdVideoReader  (LED3)</text>
+<text x="635" y="548" text-anchor="middle" font-size="11.5" font-weight="400" fill="#57606a" >ligando (apagado)  →  inicializa CMD0 · CMD8 · ACMD41 · CMD58  →  procura o cabeçalho (pisca devagar)  →  tocando (aceso)  →  erro: desliga, espera ~1 s e tenta de novo (pisca rápido)</text>
+</svg>

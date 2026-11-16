@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 560" width="1100" height="560" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/></marker></defs>
+<rect width="1100" height="560" fill="#ffffff"/>
+<text x="550" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#1b1f24" >Ligação do cartão microSD (modo SPI)</text>
+<text x="550" y="56" text-anchor="middle" font-size="13" font-weight="400" fill="#57606a" >Cinco fios entre a FPGA e o slot da Nexys A7 · tudo em 3,3 V (LVCMOS33)</text>
+<rect x="40" y="90" width="330" height="380" rx="14" fill="#eaf5ec" stroke="#2e7d32" stroke-width="2.5"/>
+<text x="205" y="116" text-anchor="middle" font-size="16" font-weight="700" fill="#1b5e20" >FPGA · Artix-7 XC7A100T</text>
+<rect x="70" y="140" width="270" height="300" rx="10" fill="#fff8e1" stroke="#b28704" stroke-width="2"/>
+<text x="205" y="166" text-anchor="middle" font-size="17" font-weight="700" fill="#5d4500" >videoBackground</text>
+<text x="205" y="188" text-anchor="middle" font-size="13" font-weight="600" fill="#5d4500" >sdVideoReader</text>
+<text x="205" y="208" text-anchor="middle" font-size="13" font-weight="600" fill="#5d4500" >sdSpiByte</text>
+<text x="205" y="236" text-anchor="middle" font-size="12" font-weight="400" fill="#57606a" >gera o clock e os bits;</text>
+<text x="205" y="254" text-anchor="middle" font-size="12" font-weight="400" fill="#57606a" >lê os setores do cartão</text>
+<rect x="730" y="90" width="330" height="380" rx="14" fill="#e8f0fe" stroke="#1f6feb" stroke-width="2.5"/>
+<text x="895" y="116" text-anchor="middle" font-size="16" font-weight="700" fill="#0d47a1" >Slot microSD (embaixo da placa)</text>
+<rect x="780" y="150" width="230" height="290" rx="10" fill="#f6f8fa" stroke="#57606a" stroke-width="2"/>
+<text x="895" y="176" text-anchor="middle" font-size="16" font-weight="700" fill="#1b1f24" >Cartão microSD</text>
+<text x="895" y="198" text-anchor="middle" font-size="12" font-weight="400" fill="#57606a" >FAT32 recém-formatado</text>
+<text x="895" y="216" text-anchor="middle" font-size="12" font-weight="400" fill="#57606a" >com o arquivo VIDEO.BIN</text>
+<text x="80" y="267" text-anchor="start" font-size="12" font-weight="700" fill="#5d4500" >SD_RESET</text>
+<text x="340" y="259" text-anchor="end" font-size="11" font-weight="600" fill="#57606a" >E2</text>
+<line x1="375" y1="262" x2="725" y2="262" stroke="#e0720b" stroke-width="2.5" marker-end="url(#ar)"/>
+<text x="550" y="254" text-anchor="middle" font-size="12" font-weight="700" fill="#e0720b" >energia do slot</text>
+<text x="550" y="276" text-anchor="middle" font-size="11" font-weight="400" fill="#57606a" >0 = liga  ·  1 = desliga</text>
+<text x="790" y="267" text-anchor="start" font-size="12" font-weight="700" fill="#1b1f24" >RESET</text>
+<text x="80" y="307" text-anchor="start" font-size="12" font-weight="700" fill="#5d4500" >SD_SCK</text>
+<text x="340" y="299" text-anchor="end" font-size="11" font-weight="600" fill="#57606a" >B1</text>
+<line x1="375" y1="302" x2="725" y2="302" stroke="#1f6feb" stroke-width="2.5" marker-end="url(#ar)"/>
+<text x="550" y="294" text-anchor="middle" font-size="12" font-weight="700" fill="#1f6feb" >clock (SCLK)</text>
+<text x="550" y="316" text-anchor="middle" font-size="11" font-weight="400" fill="#57606a" >390 kHz na partida · 12,5 MHz lendo</text>
+<text x="790" y="307" text-anchor="start" font-size="12" font-weight="700" fill="#1b1f24" >SCLK</text>
+<text x="80" y="347" text-anchor="start" font-size="12" font-weight="700" fill="#5d4500" >SD_CMD</text>
+<text x="340" y="339" text-anchor="end" font-size="11" font-weight="600" fill="#57606a" >C1</text>
+<line x1="375" y1="342" x2="725" y2="342" stroke="#1f6feb" stroke-width="2.5" marker-end="url(#ar)"/>
+<text x="550" y="334" text-anchor="middle" font-size="12" font-weight="700" fill="#1f6feb" >MOSI: FPGA → cartão</text>
+<text x="550" y="356" text-anchor="middle" font-size="11" font-weight="400" fill="#57606a" >comandos (CMD0, CMD8, CMD18…)</text>
+<text x="790" y="347" text-anchor="start" font-size="12" font-weight="700" fill="#1b1f24" >DI</text>
+<text x="80" y="387" text-anchor="start" font-size="12" font-weight="700" fill="#5d4500" >SD_DAT0</text>
+<text x="340" y="379" text-anchor="end" font-size="11" font-weight="600" fill="#57606a" >C2</text>
+<line x1="725" y1="382" x2="375" y2="382" stroke="#0b7a75" stroke-width="2.5" marker-end="url(#ar)"/>
+<text x="550" y="374" text-anchor="middle" font-size="12" font-weight="700" fill="#0b7a75" >MISO: cartão → FPGA</text>
+<text x="550" y="396" text-anchor="middle" font-size="11" font-weight="400" fill="#57606a" >respostas e dados (com pull-up)</text>
+<text x="790" y="387" text-anchor="start" font-size="12" font-weight="700" fill="#1b1f24" >DO</text>
+<text x="80" y="427" text-anchor="start" font-size="12" font-weight="700" fill="#5d4500" >SD_DAT3</text>
+<text x="340" y="419" text-anchor="end" font-size="11" font-weight="600" fill="#57606a" >D2</text>
+<line x1="375" y1="422" x2="725" y2="422" stroke="#1f6feb" stroke-width="2.5" marker-end="url(#ar)"/>
+<text x="550" y="414" text-anchor="middle" font-size="12" font-weight="700" fill="#1f6feb" >CS: escolhe o cartão</text>
+<text x="550" y="436" text-anchor="middle" font-size="11" font-weight="400" fill="#57606a" >0 = cartão ativo</text>
+<text x="790" y="427" text-anchor="start" font-size="12" font-weight="700" fill="#1b1f24" >CS</text>
+<rect x="40" y="490" width="1020" height="50" rx="8" fill="#fff8e1" stroke="#b28704" stroke-width="1.5"/>
+<text x="550" y="512" text-anchor="middle" font-size="12" font-weight="400" fill="#5d4500" >Os pinos DAT1 e DAT2 do cartão não são usados. Com SD_RESET = 1 todas as linhas ficam em 0 (senão os pinos em 1 alimentam o cartão por trás).</text>
+<text x="550" y="530" text-anchor="middle" font-size="12" font-weight="400" fill="#5d4500" >LED3: apagado = ligando · pisca devagar = procurando o vídeo · aceso = tocando · pisca rápido = erro (tenta de novo sozinho em ~1 s)</text>
+</svg>

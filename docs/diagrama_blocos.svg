@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1250 760" width="1250" height="760" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1250 840" width="1250" height="840" font-family="Segoe UI, Helvetica, Arial, sans-serif">
 <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/></marker></defs>
-<rect width="1250" height="760" fill="#ffffff"/>
+<rect width="1250" height="840" fill="#ffffff"/>
 <text x="625.0" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#1b1f24">Diagrama de blocos do HUD</text>
 <text x="625.0" y="56" text-anchor="middle" font-size="13" fill="#57606a">Cada instrumento segue o mesmo caminho: sensor, controlador, conversão, desenho, cor, VGA</text>
 <text x="105.0" y="92" text-anchor="middle" font-size="12" font-weight="700" fill="#57606a" letter-spacing="1">SENSORES</text>
@@ -99,13 +99,32 @@
 <path d="M830,390 H930" fill="none" stroke="#57606a" stroke-width="2.4" marker-end="url(#ar)"/>
 <path d="M830,490 H930" fill="none" stroke="#57606a" stroke-width="2.4" marker-end="url(#ar)"/>
 <path d="M830,600 H930" fill="none" stroke="#57606a" stroke-width="2.4" marker-end="url(#ar)"/>
-<rect x="840.0" y="670" width="300" height="22" rx="11" fill="#f6f8fa" stroke="#57606a" stroke-width="1.4" stroke-dasharray="4 3"/>
-<text x="990" y="685" text-anchor="middle" font-size="10.5" fill="#1b1f24">SW14 = 1 (declutter): só retículo + horizonte</text>
+<rect x="1075" y="560" width="160" height="40" rx="11" fill="#f6f8fa" stroke="#57606a" stroke-width="1.4" stroke-dasharray="4 3"/>
+<text x="1155" y="577" text-anchor="middle" font-size="10.5" fill="#1b1f24">SW14 = 1 (declutter):</text>
+<text x="1155" y="592" text-anchor="middle" font-size="10.5" fill="#1b1f24">só retículo + horizonte</text>
 <rect x="1100" y="365.5" width="120" height="64" rx="9" fill="#eef9ef" stroke="#2e8b3a" stroke-width="2"/>
 <text x="1160.0" y="394.5" text-anchor="middle" font-size="14" font-weight="700" fill="#1b1f24">Saída VGA</text>
 <text x="1160.0" y="411.5" text-anchor="middle" font-size="11" fill="#57606a">R G B HS VS</text>
 <path d="M1050,397.5 H1100" fill="none" stroke="#2e8b3a" stroke-width="3" marker-end="url(#ar)"/>
 <text x="755" y="652.0" text-anchor="middle" font-size="10.5" fill="#57606a">x, y e pixel válido vêm do vgaTiming + coordGen</text>
-<rect x="20" y="705" width="1200" height="38" rx="10" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1.5"/>
-<text x="620" y="729" text-anchor="middle" font-size="12.5" fill="#1b1f24"><tspan font-weight="700">clk25</tspan> = clock de 100 MHz ÷ 4  ·  <tspan font-weight="700">reset sincronizado</tspan> (botão BTNC)  ·  chegam a todos os blocos (o xadcReader usa o clock de 100 MHz)</text>
+<text x="20" y="696" font-size="12" font-weight="700" fill="#57606a" letter-spacing="1">VÍDEO DE FUNDO</text>
+<line x1="150" y1="692" x2="440" y2="692" stroke="#d0d7de" stroke-width="2"/>
+<rect x="20" y="705" width="170" height="56" rx="9" fill="#f3e8ff" stroke="#8250df" stroke-width="2"/>
+<text x="105" y="730" text-anchor="middle" font-size="14" font-weight="700" fill="#1b1f24">Cartão microSD</text>
+<text x="105" y="748" text-anchor="middle" font-size="11" fill="#57606a">SPI, slot da placa</text>
+<rect x="220" y="705" width="170" height="56" rx="9" fill="#f3e8ff" stroke="#8250df" stroke-width="2"/>
+<text x="305" y="730" text-anchor="middle" font-size="14" font-weight="700" fill="#1b1f24">sdVideoReader</text>
+<text x="305" y="748" text-anchor="middle" font-size="11" fill="#57606a">+ sdSpiByte</text>
+<rect x="450" y="705" width="150" height="56" rx="9" fill="#f6f8fa" stroke="#57606a" stroke-width="2"/>
+<text x="525" y="730" text-anchor="middle" font-size="14" font-weight="700" fill="#1b1f24">videoBackground</text>
+<text x="525" y="748" text-anchor="middle" font-size="11" fill="#57606a">2 quadros em BRAM, 2×</text>
+<rect x="460" y="668" width="130" height="22" rx="11" fill="#f6f8fa" stroke="#57606a" stroke-width="1.4" stroke-dasharray="4 3"/>
+<text x="525" y="683" text-anchor="middle" font-size="10.5" fill="#1b1f24">SW4 liga/desliga</text>
+<path d="M190,733 H220" fill="none" stroke="#8250df" stroke-width="2.4" marker-end="url(#ar)"/>
+<path d="M390,733 H450" fill="none" stroke="#8250df" stroke-width="2.4" marker-end="url(#ar)"/>
+<path d="M600,733 H990 V660" fill="none" stroke="#57606a" stroke-width="2.4" marker-end="url(#ar)"/>
+<text x="790" y="726" text-anchor="middle" font-size="10.5" fill="#57606a">cor do fundo (atrás de tudo)</text>
+<text x="105" y="775" text-anchor="middle" font-size="10.5" fill="#8250df" font-weight="700">LED3 mostra o estado</text>
+<rect x="20" y="785" width="1200" height="38" rx="10" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1.5"/>
+<text x="620" y="809" text-anchor="middle" font-size="12.5" fill="#1b1f24"><tspan font-weight="700">clk25</tspan> = clock de 100 MHz ÷ 4  ·  <tspan font-weight="700">reset sincronizado</tspan> (botão BTNC)  ·  chegam a todos os blocos (o xadcReader usa o clock de 100 MHz)</text>
 </svg>

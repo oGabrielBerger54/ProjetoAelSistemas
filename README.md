@@ -8,6 +8,7 @@ Um HUD de avião, como aqueles que aparecem na frente do piloto. Cada pixel da t
 |  **Bússola** | Fita de graus que desliza para os lados | Acelerômetro (empurrões laterais na placa; simulação, não é o norte real) |
 |  **Altímetro** | Fita de altitude com ponteiro | Barômetro **BMP085** (I2C, no Pmod JA) |
 |  **Retículo** | Cruz fixa no centro da tela | Desenho fixo |
+|  **Fundo em vídeo** | Vídeo atrás de todos os desenhos, ampliado 2× | Arquivo `VIDEO.BIN` num cartão **microSD** (SPI, slot da própria placa) |
 |  **Mira** | Quadrado que segue o joystick e pode travar | Joystick analógico (lido pelo **XADC**), botão do joystick para travar |
 
 ---
@@ -63,13 +64,20 @@ Todo instrumento segue o mesmo caminho, em três etapas:
 │       ├── i2c_master.sv ← envia/recebe bytes por I2C
 │       ├── bmp085_reader.sv ← lê a pressão do BMP085
 │       └── barToAlt.sv ← pressão → deslocamento da fita de altitude
+├── video/ ← vídeo de fundo lido do cartão microSD
+│   ├── sdSpiByte.sv ← envia/recebe 1 byte com o cartão (SPI, 390 kHz ou 12,5 MHz)
+│   ├── sdVideoReader.sv ← inicia o cartão, acha o VIDEO.BIN e lê os quadros em loop
+│   └── videoBackground.sv ← framebuffer duplo em BRAM, troca sem rasgar, amplia 2× para 640×480
 ├── xdc/
 │   └── nexysA7_hudTop.xdc ← qual sinal vai em qual pino da placa
 └── docs/
     ├── esquematico.svg ← esquema de ligação da placa
     ├── diagrama_blocos.svg ← diagrama de blocos do HUD
     ├── circuito_joystick.svg ← circuito simplificado e cálculos do joystick
-    └── protoboard_joystick.svg ← montagem da protoboard do joystick
+    ├── protoboard_joystick.svg ← montagem da protoboard do joystick
+    ├── microsd_ligacao.svg ← ligação do slot microSD (modo SPI)
+    ├── video_cartao.svg ← como o vídeo fica gravado no cartão
+    └── video_fluxo.svg ← caminho do vídeo até o fundo do HUD
 ```
 
 ---
@@ -84,6 +92,7 @@ Todo instrumento segue o mesmo caminho, em três etapas:
 | `SW1` | L16 | **1** = bússola segue os empurrões · **0** = bússola desligada (ângulo em 0) |
 | `SW2` | M13 | **1** = altitude segue o barômetro · **0** = escala parada |
 | `SW3` | R15 | **1** = mira aparece e segue o joystick · **0** = mira escondida |
+| `SW4` | R17 | **1** = fundo com o vídeo do cartão microSD · **0** = fundo de cor fixa |
 | `SW14` | U11 | **Declutter:** **1** = só o retículo central e a linha do horizonte · **0** = tudo aparece |
 | `BTNC` | N17 | Reset |
 
@@ -94,6 +103,7 @@ Todo instrumento segue o mesmo caminho, em três etapas:
 | `LED0` | Acelerômetro respondendo |
 | `LED1` | Barômetro respondendo, sem erro |
 | `LED2` | Mira travada |
+| `LED3` | Vídeo: apagado = ligando o cartão · piscando devagar = procurando o vídeo · aceso = tocando · piscando rápido = erro (tenta de novo sozinho) |
 
 ### Esquema de ligação
 
@@ -104,6 +114,7 @@ Todo instrumento segue o mesmo caminho, em três etapas:
 - **Monitor:** cabo VGA na saída da placa.
 - **Barômetro BMP085:** cinco fios no **Pmod JA** (pino 1 `SDA`, 2 `SCL`, 3 `XCLR`, 5 GND, 6 3,3 V). O módulo precisa ser de **3,3 V**.
 - **Acelerômetro ADXL362:** já vem soldado na placa, não precisa ligar nada.
+- **Cartão microSD:** com o `VIDEO.BIN`, no slot embaixo da placa (não precisa de fio). Veja "Vídeo de fundo" abaixo.
 - **Joystick:** analógico, ligado no conector **JXADC** (eixos, passando pelos divisores de tensão da protoboard) e no **Pmod JB** pino 1 (botão de trava). Veja a seção "Joystick" abaixo.
 
 ---
@@ -266,6 +277,65 @@ Parâmetros de ajuste: `GAIN_NUM` (no `xadcToJoy`), `SWAP_XY`, `INVERT_H`, `INVE
 </details>
 
 <details>
+<summary><b>Vídeo de fundo (microSD)</b></summary>
+
+O vídeo fica **atrás** de todos os desenhos (horizonte, bússola, altímetro, retículo e mira). O `hudTop` pinta o pixel de verde se algum instrumento desenha ali; se não, usa a cor do vídeo (com `SW4 = 1`) ou a cor de fundo fixa (com `SW4 = 0`).
+
+Cadeia: cartão → `sdSpiByte` → `sdVideoReader` → framebuffer (2 quadros em BRAM) → `videoBackground` → fundo do HUD.
+
+<p align="center">
+  <img src="docs/video_fluxo.svg" alt="Caminho do vídeo: do cartão ao fundo do HUD" width="100%">
+</p>
+
+**Por que o microSD:** um quadro de 320×240 em RGB332 tem 76 800 bytes. Só 2 quadros já ocupam 38 blocos de RAM da FPGA, e um vídeo de verdade não cabe lá. Por isso a placa lê os quadros, um a um, do cartão que já vem no slot da Nexys A7.
+
+**Ligação do slot:** cinco fios em modo SPI. O slot só recebe energia com `SD_RESET = 0`. Os fios já estão ligados na placa, só é preciso o cartão.
+
+<p align="center">
+  <img src="docs/microsd_ligacao.svg" alt="Ligação do cartão microSD em modo SPI: SD_RESET, SD_SCK, SD_CMD, SD_DAT0 e SD_DAT3" width="100%">
+</p>
+
+| Sinal | Pino | Função |
+|---|:---:|---|
+| `SD_RESET` | E2 | energia do slot (0 = liga, 1 = desliga) |
+| `SD_SCK` | B1 | clock do SPI (390 kHz na partida, 12,5 MHz lendo) |
+| `SD_CMD` | C1 | MOSI: FPGA → cartão |
+| `SD_DAT0` | C2 | MISO: cartão → FPGA (com pull-up) |
+| `SD_DAT3` | D2 | CS: 0 = cartão ativo |
+
+**Preparar o cartão (não precisa de administrador):**
+1. Monte um arquivo `VIDEO.BIN` no formato abaixo (320×240, 1 byte por pixel, RGB332). O gerador do vídeo não faz parte do repositório.
+2. Formate o microSD em **FAT32** (no PC ou no celular, como "armazenamento portátil").
+3. Copie **só** o `VIDEO.BIN`, logo depois de formatar, e ejete com segurança. Não use o cartão para mais nada.
+
+**Como a placa acha o vídeo:** ela não lê o FAT. Num cartão recém-formatado o primeiro arquivo copiado fica em setores seguidos, então o `sdVideoReader` lê o cartão desde o setor 0 (leitura contínua, `CMD18`) até achar o setor que começa com `AEL_HUD_VIDEO_V1` (procura nos primeiros 128 MB, leva alguns segundos). Os quadros vêm logo depois: 150 setores cada. No último quadro ele manda `CMD12` e recomeça do primeiro.
+
+<p align="center">
+  <img src="docs/video_cartao.svg" alt="Como o vídeo fica no cartão: cabeçalho de 1 setor seguido dos quadros de 150 setores" width="100%">
+</p>
+
+| Bytes do cabeçalho (1 setor de 512 bytes) | Conteúdo |
+|---|---|
+| 0–15 | `AEL_HUD_VIDEO_V1` |
+| 16–31 | os mesmos bytes invertidos (evita achar a assinatura por acaso) |
+| 32–35 | largura e altura (320, 240), little-endian |
+| 36–39 | número de quadros, little-endian |
+| 40–41 | setores por quadro (150), little-endian |
+| 42 | fps |
+| 43 | formato (1 = RGB332) |
+
+Cada quadro é 320×240 pixels, 1 byte por pixel (`RRRGGGBB`). O HUD repete os bits de cima de cada cor para ir de 0 a 15.
+
+**Na tela:** o quadro é ampliado 2× (cada pixel vira 2×2). Enquanto um quadro aparece, o próximo é escrito no outro buffer, e a troca só acontece no começo do apagamento vertical, então a imagem nunca rasga. A 15 fps cada quadro fica 4 quadros VGA na tela. O SPI a 12,5 MHz lê um quadro em ~55 ms: se o cartão demorar mais, o vídeo só fica mais lento.
+
+**Se der erro** (sem cartão, cartão sem o vídeo), o leitor desliga o cartão, espera ~1 s e tenta de novo, então dá para colocar o cartão com a placa ligada. Enquanto desligado, todas as linhas ficam em 0.
+
+**A mira tremeu depois de ligar o vídeo?** O cartão e o VGA com imagem em movimento puxam corrente em rajadas, e o joystick é alimentado pelos mesmos 3,3 V da placa, então o ruído pode entrar na leitura do XADC. O `xadcReader` filtra a leitura devagar (constante de tempo ~2 ms) para isso. Se ainda sobrar tremida, ligue um capacitor de 100 nF entre o ponto **N** de cada eixo e o GND. Para descobrir de onde vem o ruído: com `SW4 = 0` o VGA fica parado, mas o cartão continua lendo; se só treme com `SW4 = 1`, é o VGA; se treme nos dois, é o cartão.
+
+Parâmetros de ajuste: `SEARCH_LIMIT` (no `sdVideoReader`, quantos setores procurar), `SLOW_HALF` (no `sdSpiByte`, velocidade da inicialização).
+</details>
+
+<details>
 <summary><b>Modo declutter</b></summary>
 
 Com `SW14 = 1`, só o retículo central e a linha do horizonte são desenhados. Altitude, bússola e mira ficam escondidas (os cálculos continuam rodando, só o desenho some).
@@ -274,13 +344,13 @@ Com `SW14 = 1`, só o retículo central e a linha do horizonte são desenhados. 
 ---
 
 ## Próximos passos
-- Fazer o vídeo aparecer atrás dos retículos.
+- Testar o vídeo do cartão na placa e conferir se a mira continua firme.
 
 ---
 
 ## Tecnologias
 
-SystemVerilog · Vivado · Nexys A7-100T (Artix-7) · SPI · I2C · XADC · VGA 640×480 · TCL
+SystemVerilog · Vivado · Nexys A7-100T (Artix-7) · SPI · I2C · XADC · microSD (SPI) · VGA 640×480 · TCL
 
 ---
 

@@ -10,6 +10,8 @@ module hudTop (
     input logic SW2,
     // Switch da mira: SW[3] = 1 -> a mira aparece e segue o joystick / SW[3] = 0 -> mira escondida
     input logic SW3,
+    // Switch do vídeo: SW[4] = 1 -> fundo com o vídeo do cartão microSD / SW[4] = 0 -> fundo de cor fixa
+    input logic SW4,
     // Switch do modo declutter: SW[14] = 1 -> só o retículo central e a linha do horizonte aparecem (some altitude, bússola e mira) / SW[14] = 0 -> tudo aparece
     input logic SW14,
 
@@ -38,6 +40,16 @@ module hudTop (
     output logic LED1,
     // LED[2] aceso = mira travada
     output logic LED2,
+    // LED[3]: vídeo do cartão. Apagado = ligando o cartão, piscando devagar = procurando o vídeo,
+    // aceso = tocando, piscando rápido = erro (tenta de novo sozinho a cada ~1 s)
+    output logic LED3,
+
+    // Slot microSD da placa (modo SPI). SD_RESET = 1 desliga o cartão.
+    output logic SD_RESET,
+    output logic SD_SCK,
+    output logic SD_CMD,   // MOSI
+    input  logic SD_DAT0,  // MISO
+    output logic SD_DAT3,  // CS
 
     output logic VGAHS,
     output logic VGAVS,
@@ -79,7 +91,6 @@ vgaTiming vgaTiming (
     .pxI(pxI)
 );
 
-// Gera as coordenadas x e y de acordo com a area visivel do monitor
 logic unsigned [9:0] x, y;
 logic validPixel;
 
@@ -117,7 +128,6 @@ assign LED0 = aclIdOk;
 logic signed [8:0] accelVerticalDelta;
 logic signed [9:0] accelHorizontalDelta;
 
-// Converte dados do acelerometro em inclinacao para a linha do horizonte
 // Ajuste SWAP_XY / INVERT_V / INVERT_H depois de testar inclinando a placa
 accelToHorizon #(
     .SWAP_XY (1'b1),
@@ -388,16 +398,26 @@ altGen altGen (
     .drawAlt(drawAlt)
 );
 
-logic drawAltR;
+// ---------- Vídeo de fundo (cartão microSD) ----------
+// Cadeia: cartão --SPI--> sdVideoReader --> framebuffer (2 quadros em BRAM) --> videoBackground --> fundo
+logic [3:0] vidR, vidG, vidB;
+logic videoOn;
 
-altGen #(.TAPE_X(579), .MIRROR(1)) altGenRight (
+videoBackground videoBackground (
     .clk(clk25),
     .rstN(rstN),
-    .x(x),
-    .y(y),
-    .altOffset(altOffset),
-    .validPixel(validPixel),
-    .drawAlt(drawAltR)
+    .pxJ(pxJ),
+    .pxI(pxI),
+    .sdReset(SD_RESET),
+    .sdSclk(SD_SCK),
+    .sdMosi(SD_CMD),
+    .sdMiso(SD_DAT0),
+    .sdCsN(SD_DAT3),
+    .bgR(vidR),
+    .bgG(vidG),
+    .bgB(vidB),
+    .videoOn(videoOn),
+    .statusLed(LED3)
 );
 
 parameter [3:0] BGR = 4'h4;
@@ -408,10 +428,15 @@ always_comb begin
     if(validPixel) begin
         // SW3 e SW14 vêm de switches (assíncronos): só ligam/desligam desenhos, no máximo 1 quadro errado.
         // Declutter (SW14 = 1): sobram só o retículo central e a linha do horizonte.
-        if(drawReticle || drawHorizon || (!SW14 && (drawAlt || drawAltR || drawCompass || (SW3 && drawTarget)))) begin
+        if(drawReticle || drawHorizon || (!SW14 && (drawAlt || drawCompass || (SW3 && drawTarget)))) begin
             VGAR = 4'h0;
             VGAG = 4'hF;
             VGAB = 4'h0;
+        end else if(SW4 && videoOn) begin
+            // SW4 vem de um switch (assíncrono): só escolhe o fundo, no máximo 1 quadro errado.
+            VGAR = vidR;
+            VGAG = vidG;
+            VGAB = vidB;
         end else begin
             VGAR = BGR;
             VGAG = BGG;

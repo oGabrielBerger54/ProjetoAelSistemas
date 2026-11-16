@@ -1,10 +1,10 @@
 module horizonGen #(
     parameter int CX = 320,
     parameter int CY = 240,
-    parameter int RADIUS = 60,
-    parameter int GAP = RADIUS + 10,
+    parameter int RADIUS = 55,
+    parameter int GAP = RADIUS + 1,
     parameter int INNER_LINE_LENGTH = 40,
-    parameter int STEP_WIDTH = 20,
+    parameter int STEP_WIDTH = 40,
     parameter int STEP_HEIGHT = 10,
     parameter int H_LAST = 639, // último x visível
     parameter int V_LAST = 479  // último y visível
@@ -78,11 +78,25 @@ logic drawStepOuterVert;
 logic drawOuterLine;
 
 always_comb begin
-    drawInnerLine     = (absDistX >= GAP) && (absDistX < GAP + INNER_LINE_LENGTH) && matchBaseY;
-    drawStepInnerVert = (absDistX == GAP + INNER_LINE_LENGTH) && (signedY <= horizonY) && (signedY >= horizonY - STEP_HEIGHT);
-    drawStepTop       = (absDistX >= GAP + INNER_LINE_LENGTH) && (absDistX < GAP + INNER_LINE_LENGTH + STEP_WIDTH) && matchStepTopY;
-    drawStepOuterVert = (absDistX == GAP + INNER_LINE_LENGTH + STEP_WIDTH) && (signedY <= horizonY) && (signedY >= horizonY - STEP_HEIGHT);
-    drawOuterLine     = (absDistX >= GAP + INNER_LINE_LENGTH + STEP_WIDTH) && matchBaseY;
+    drawInnerLine     = (absDistX >= GAP) && 
+                        (absDistX < GAP + INNER_LINE_LENGTH) && 
+                        matchBaseY;
+    
+    drawStepInnerVert = (absDistX == GAP + INNER_LINE_LENGTH) &&
+                        (signedY <= horizonY + 1) && 
+                        (signedY >= horizonY - STEP_HEIGHT);
+                        
+    drawStepTop       = (absDistX >= GAP + INNER_LINE_LENGTH) && 
+                        (absDistX < GAP + INNER_LINE_LENGTH + STEP_WIDTH) && 
+                        matchStepTopY;
+                        
+    drawStepOuterVert = (absDistX == GAP + INNER_LINE_LENGTH + STEP_WIDTH) && 
+                        (signedY <= horizonY) && 
+                        (signedY >= horizonY - STEP_HEIGHT);
+                        
+    drawOuterLine     = (absDistX >= GAP + INNER_LINE_LENGTH + STEP_WIDTH) && 
+                        (absDistX <= 240) &&
+                        matchBaseY;
 
     if(validPixel) begin
         drawHorizon = drawOuterLine || drawInnerLine || drawStepTop || drawStepOuterVert || drawStepInnerVert;

@@ -5,9 +5,9 @@ Um HUD de avião, como aqueles que aparecem na frente do piloto. Cada pixel da t
 | Instrumento | O que mostra | De onde vem o dado |
 |---|---|---|
 |  **Horizonte artificial** | Linha do horizonte que inclina e sobe/desce | Acelerômetro **ADXL362** (SPI, da própria placa) |
-|  **Bússola** | Fita de graus que desliza para os lados | Acelerômetro (empurrões laterais na placa; simulação, não é o norte real) |
-|  **Altímetro** | Fita de altitude com ponteiro | Barômetro **BMP085** (I2C, no Pmod JA) |
-|  **Retículo** | Cruz fixa no centro da tela | Desenho fixo |
+|  **Bússola** | Arco de graus, com número a cada 30°, que gira para os lados | Acelerômetro (empurrões laterais na placa; simulação, não é o norte real) |
+|  **Altímetro** | Duas fitas de altitude (esquerda e direita) com números e ponteiro | Barômetro **BMP085** (I2C, no Pmod JA) |
+|  **Retículo** | Círculo com cruz fixo no centro da tela | Desenho fixo |
 |  **Fundo em vídeo** | Vídeo atrás de todos os desenhos, ampliado 2× | Arquivo `VIDEO.BIN` num cartão **microSD** (SPI, slot da própria placa) |
 |  **Mira** | Quadrado que segue o joystick e pode travar | Joystick analógico (lido pelo **XADC**), botão do joystick para travar |
 
@@ -47,6 +47,7 @@ Todo instrumento segue o mesmo caminho, em três etapas:
 │   ├── horizonGen.sv
 │   ├── compassGen.sv
 │   ├── altGen.sv
+│   ├── numGen.sv ← desenha os números (módulo numberGen) das escalas
 │   ├── reticleGen.sv
 │   └── targetGen.sv ← desenha a mira (quadrado; muda ao travar)
 ├── sensors/
@@ -251,7 +252,7 @@ Ficam em `build/reports/`:
 <details>
 <summary><b>Bússola</b></summary>
 
-`accelToCompass` separa a parte **parada** (gravidade) da parte do **empurrão**. Cada empurrão forte soma `STEP_DEG` graus, e depois há uma pausa (`LOCKOUT_READS`) para a parada da placa não contar como empurrão ao contrário. O ângulo anda aos poucos (`SLEW`) para a fita deslizar suave. É uma simulação, não o norte magnético.
+`accelToCompass` separa a parte **parada** (gravidade) da parte do **empurrão**. Cada empurrão forte soma `STEP_DEG` graus, e depois há uma pausa (`LOCKOUT_READS`) para a parada da placa não contar como empurrão ao contrário. O ângulo anda aos poucos (`SLEW`) para o arco girar suave. É uma simulação, não o norte magnético.
 
 Parâmetros de ajuste (na instância dentro do `hudTop`): `SWAP_XY`, `INVERT`, `FLICK_MG`, `LOCKOUT_READS`, `STEP_DEG`, `SLEW`.
 </details>
@@ -259,7 +260,7 @@ Parâmetros de ajuste (na instância dentro do `hudTop`): `SWAP_XY`, `INVERT`, `
 <details>
 <summary><b>Altitude</b></summary>
 
-`bmp085_reader` (usando o `i2c_master`) entrega a pressão crua. `barToAlt` filtra, **captura uma referência de "chão"** depois de ~2 s e converte a diferença de pressão em pixels (sobe a altitude, a fita desce). `altGen` desenha a fita com marcas maiores e menores usando um contador sequencial por linha.
+`bmp085_reader` (usando o `i2c_master`) entrega a pressão crua. `barToAlt` filtra, **captura uma referência de "chão"** depois de ~2 s e converte a diferença de pressão em pixels (sobe a altitude, a fita desce). `altGen` desenha a fita com marcas maiores (com o número da altitude, feito pelo `numberGen`) e menores, usando um contador sequencial por linha. O `hudTop` usa duas cópias: uma à esquerda e outra espelhada à direita.
 
 Parâmetros de ajuste: `INVERT`, `PX_PER_METER`, `FILT_SHIFT`, `ALT_LIMIT`, `SETTLE_READS`.
 
